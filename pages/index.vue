@@ -8,6 +8,7 @@
         <ScheduleArea />
         <ReviewsArea />
         <SponsorsArea />
+        <ContactArea />
     </div>
 </template>
 
