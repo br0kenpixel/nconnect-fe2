@@ -16,7 +16,7 @@
 }
 
 div {
-    background-color: rgb(6, 57, 66);
+    background-color: #004953;
     color: white;
     font-size: 14px;
     font-family: 'Lato', sans-serif;
