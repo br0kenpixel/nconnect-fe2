@@ -6,6 +6,7 @@
         <AboutArea />
         <SpeakersArea />
         <ScheduleArea />
+        <ReviewsArea />
     </div>
 </template>
 
