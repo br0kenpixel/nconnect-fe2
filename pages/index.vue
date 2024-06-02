@@ -3,6 +3,7 @@
 <template>
     <div>
         <Carousel />
+        <AboutArea />
     </div>
 </template>
 
