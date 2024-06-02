@@ -1,10 +1,9 @@
 <script lang="ts" setup></script>
 
 <template>
-    <div>
-        Layout: admin
+    <v-app>
         <slot />
-    </div>
+    </v-app>
 </template>
 
 <style scoped></style>
