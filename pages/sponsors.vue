@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <SpecificPublicPageHeader />
+        <SpecificPublicPageHeader title="Partneri" />
         <SponsorsArea />
     </div>
 </template>

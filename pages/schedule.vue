@@ -2,7 +2,7 @@
 
 <template>
     <div>
-        <SpecificPublicPageHeader />
+        <SpecificPublicPageHeader title="Program" />
         <ScheduleArea />
     </div>
 </template>
