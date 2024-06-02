@@ -4,6 +4,7 @@
     <div>
         <Carousel />
         <AboutArea />
+        <SpeakersArea />
     </div>
 </template>
 
