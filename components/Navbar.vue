@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const links = [
     { name: "Domov", target: "index" },
-    { name: "Speakers", target: "test" },
+    { name: "Speakers", target: "speakers" },
     { name: "Program", target: "test" },
     { name: "Partneri", target: "test" },
     { name: "Kontakt", target: "test" },
