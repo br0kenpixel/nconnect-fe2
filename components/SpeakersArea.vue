@@ -37,7 +37,7 @@ const speakers = [
             <div class="card" v-for="speaker in speakers">
                 <NuxtImg :src="speaker.image" :alt="speaker.name" />
                 <div class="card-body">
-                    <h5 class="card-title">{{ speaker.name }}</h5>
+                    <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
                     <p class="card-text">{{ speaker.description }}</p>
                     <p class="card-text"><small class="text-body-secondary">{{ speaker.company }}</small></p>
                 </div>
@@ -51,6 +51,10 @@ const speakers = [
     padding-top: 50px;
     padding-bottom: 50px;
     width: 85%;
+}
+
+.speaker-name {
+    color: black;
 }
 
 h5 {
