@@ -1,9 +1,9 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div>
-    Page: index
-  </div>
+    <div>
+        <Carousel />
+    </div>
 </template>
 
 <style scoped></style>
