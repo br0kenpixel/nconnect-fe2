@@ -2,6 +2,7 @@
 
 <template>
     <div>
+        Layout: admin
         <slot />
     </div>
 </template>

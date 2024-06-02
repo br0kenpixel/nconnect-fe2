@@ -2,6 +2,8 @@
 
 <template>
     <div>
+        <TopInfoBar />
+        <Navbar />
         <slot />
     </div>
 </template>
