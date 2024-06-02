@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 const links = [
     { name: "Domov", target: "index" },
-    { name: "Speakers", target: "index" },
-    { name: "Program", target: "index" },
-    { name: "Partneri", target: "index" },
-    { name: "Kontakt", target: "index" },
-    { name: "Registrácia", target: "index" },
+    { name: "Speakers", target: "test" },
+    { name: "Program", target: "test" },
+    { name: "Partneri", target: "test" },
+    { name: "Kontakt", target: "test" },
+    { name: "Registrácia", target: "test" },
 ];
 </script>
 
@@ -24,7 +24,7 @@ const links = [
                     <li class="nav-item" v-for="page in links">
                         <NuxtLink class="nav-link link-button"
                             :class="['nav-link', $route.name === page.target ? 'active' : '', $route.name === page.target ? 'link-button-active' : '']"
-                            :href="{ name: page.target }">{{ page.name }}</NuxtLink>
+                            :to="{ name: page.target }">{{ page.name }}</NuxtLink>
                     </li>
                 </ul>
             </div>
@@ -38,6 +38,12 @@ const links = [
     font-family: 'Lato', sans-serif;
     margin-right: 10px;
     font-size: 14px;
+    color: #777777;
+}
+
+.link-button:hover {
+    background: #004953;
+    color: white;
 }
 
 .link-button-active {
