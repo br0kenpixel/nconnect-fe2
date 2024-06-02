@@ -2,9 +2,9 @@
 const links = [
     { name: "Domov", target: "index" },
     { name: "Speakers", target: "speakers" },
-    { name: "Program", target: "test" },
-    { name: "Partneri", target: "test" },
-    { name: "Kontakt", target: "test" },
+    { name: "Program", target: "schedule" },
+    { name: "Partneri", target: "sponsors" },
+    { name: "Kontakt", target: "contact" },
     { name: "Registrácia", target: "test" },
 ];
 </script>
