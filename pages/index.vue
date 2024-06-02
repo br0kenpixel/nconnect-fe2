@@ -5,6 +5,7 @@
         <Carousel />
         <AboutArea />
         <SpeakersArea />
+        <ScheduleArea />
     </div>
 </template>
 
