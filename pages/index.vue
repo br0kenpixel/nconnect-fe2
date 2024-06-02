@@ -7,6 +7,7 @@
         <SpeakersArea />
         <ScheduleArea />
         <ReviewsArea />
+        <SponsorsArea />
     </div>
 </template>
 

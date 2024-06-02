@@ -17,6 +17,12 @@ const reviews = [
         text: "Great people and awesome personel. Very nice!",
         image: "/",
         position: "Google"
+    },
+    {
+        name: "Stanley Fee",
+        text: "Example...",
+        image: "/",
+        position: "EA"
     }
 ];
 </script>
