@@ -1,31 +1,41 @@
 <template>
-    <v-card>
-        <v-layout>
-            <v-app-bar color="primary" prominent>
-                <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+    <div>
+        <v-card>
+            <v-layout>
+                <v-app-bar color="primary" prominent>
+                    <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-                <v-toolbar-title>nConnect Administrácia</v-toolbar-title>
+                    <v-toolbar-title>nConnect Administrácia</v-toolbar-title>
 
-                <v-spacer></v-spacer>
+                    <v-spacer></v-spacer>
 
-                <v-btn icon="mdi-dots-vertical" variant="text"></v-btn>
-            </v-app-bar>
+                    <v-tooltip text="Log out">
+                        <template v-slot:activator="{ props }">
+                            <v-btn v-bind="props" icon="mdi-logout"></v-btn>
+                        </template>
+                    </v-tooltip>
+                </v-app-bar>
 
-            <client-only>
-                <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined"
-                    temporary>
-                    <v-list :items="items"></v-list>
-                </v-navigation-drawer>
-            </client-only>
+                <client-only>
+                    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined"
+                        temporary>
+                        <v-list :items="items"></v-list>
+                    </v-navigation-drawer>
+                </client-only>
 
-            <v-main style="height: 100%;" id="main-app-container">
-                <v-card-text>
+                <v-main id="app-main-container">
                     <slot />
-                </v-card-text>
-            </v-main>
-        </v-layout>
-    </v-card>
+                </v-main>
+            </v-layout>
+        </v-card>
+    </div>
 </template>
+
+<style scoped>
+#app-main-container {
+    min-height: 100vh;
+}
+</style>
 
 <script lang="ts">
 export default {
