@@ -62,14 +62,6 @@ const sponsors = [
     display: inline;
     margin: 1px;
 }
-
-.modal-backdrop {
-    z-index: 0 !important;
-}
-
-.modal-dialog {
-    z-index: 1 !important;
-}
 </style>
 
 <script lang="ts">
