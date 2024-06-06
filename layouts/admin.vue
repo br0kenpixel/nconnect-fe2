@@ -2,6 +2,7 @@
 const links = [
     { display: "Domov", to: "admin-panel" },
     { display: "Manažment partnerov", to: "admin-sponsors" },
+    { display: "Manažment speakerov", to: "admin-speakers" },
 ];
 </script>
 
