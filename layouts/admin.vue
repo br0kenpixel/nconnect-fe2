@@ -1,3 +1,10 @@
+<script setup lang="ts">
+const links = [
+    { display: "Domov", to: "admin-panel" },
+    { display: "Manažment partnerov", to: "admin-sponsors" },
+];
+</script>
+
 <template>
     <div>
         <v-card>
@@ -9,17 +16,23 @@
 
                     <v-spacer></v-spacer>
 
-                    <v-tooltip text="Log out">
-                        <template v-slot:activator="{ props }">
-                            <v-btn v-bind="props" icon="mdi-logout"></v-btn>
-                        </template>
-                    </v-tooltip>
+                    <client-only>
+                        <v-tooltip text="Log out">
+                            <template v-slot:activator="{ props }">
+                                <v-btn v-bind="props" icon="mdi-logout"></v-btn>
+                            </template>
+                        </v-tooltip>
+                    </client-only>
                 </v-app-bar>
 
                 <client-only>
-                    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined"
+                    <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'left' : undefined"
                         temporary>
-                        <v-list :items="items"></v-list>
+                        <v-list nav>
+                            <v-list-item v-for="link in links" :to="{ name: link.to }" nuxt link>
+                                {{ link.display }}
+                            </v-list-item>
+                        </v-list>
                     </v-navigation-drawer>
                 </client-only>
 
@@ -41,25 +54,6 @@
 export default {
     data: () => ({
         drawer: false,
-        group: null,
-        items: [
-            {
-                title: 'Foo',
-                value: 'foo',
-            },
-            {
-                title: 'Bar',
-                value: 'bar',
-            },
-            {
-                title: 'Fizz',
-                value: 'fizz',
-            },
-            {
-                title: 'Buzz',
-                value: 'buzz',
-            },
-        ],
     }),
 
     watch: {
