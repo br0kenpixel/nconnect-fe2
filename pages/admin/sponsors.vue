@@ -33,17 +33,22 @@ const sponsors = [
             <thead>
                 <tr>
                     <th class="text-left">
-                        Name
+                        Názov
                     </th>
-                    <th class="text-left">
-                        Actions
+                    <th class="text-right">
+                        Op.
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="sponsor in sponsors">
                     <td>{{ sponsor.name }}</td>
-                    <td>{{ sponsor.name }}</td>
+                    <td class="text-right">
+                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
+                            base-color="red">Zmazať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
+                            base-color="orange">Editovať</v-btn>
+                    </td>
                 </tr>
             </tbody>
         </v-table>
