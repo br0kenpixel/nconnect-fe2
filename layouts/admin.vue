@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const links = [
     { display: "Domov", to: "admin-panel" },
+    { display: "Manažment konferencií", to: "admin-conferences" },
     { display: "Manažment partnerov", to: "admin-sponsors" },
     { display: "Manažment speakerov", to: "admin-speakers" },
 ];
