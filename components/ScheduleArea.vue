@@ -9,7 +9,7 @@ const schedule = [
                 to: "10:00",
                 title: "Event preparation",
                 description: "Preparing fot the event",
-                guests: null
+                speaker: null
             },
             {
                 from: "10:15",
