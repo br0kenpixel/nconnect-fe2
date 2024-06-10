@@ -1,30 +1,9 @@
 <script setup lang="ts">
-const speakers = [
-    {
-        name: "Albert Einstein",
-        image: "/",
-        company: "Einstein Inc.",
-        description: "A mad scientist."
-    },
-    {
-        name: "John Doe",
-        image: "/",
-        company: "Doe Inc.",
-        description: "Senior Python developer. Developed GPT-4 and DALL-E algorithms."
-    },
-    {
-        name: "Jenna Field",
-        image: "/",
-        company: "DAGAMES",
-        description: "Senor game developer for DAGAMES studio. Developer of popular games such as Flappy Bird."
-    },
-    {
-        name: "Alaric Ed",
-        image: "/",
-        company: "EA",
-        description: "Senor game developer for EA studio. Developer of popular games such as FIFA."
-    }
-];
+import type { Speaker } from '~/types/speaker';
+
+const config = useRuntimeConfig();
+
+const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`);
 </script>
 
 <template>
@@ -33,9 +12,25 @@ const speakers = [
 
         <hr>
 
-        <div class="card-group">
-            <div class="card" v-for="speaker in speakers">
-                <NuxtImg :src="speaker.image" :alt="speaker.name" />
+        <div class="card-group" v-if="pending">
+            <div class="card" v-for="_ in 5" aria-hidden="true">
+                <span class="card-img-top placeholder-glow placeholder" style="height: 250px;"></span>
+                <div class="card-body">
+                    <h5 class="card-title speaker-name placeholder-glow"><span class="placeholder col-6"></span></h5>
+                    <p class="card-text placeholder-glow"><span class="placeholder col-3"></span></p>
+                    <p class="card-text placeholder-glow"><small class="text-body-secondary"><span
+                                class="placeholder col-2"></span></small></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <div class="card-group" v-else>
+            <div class="card" v-for="speaker in data">
+                <img :src="speaker.image" :alt="speaker.name" />
                 <div class="card-body">
                     <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
                     <p class="card-text">{{ speaker.description }}</p>

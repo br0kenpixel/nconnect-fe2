@@ -26,4 +26,9 @@ export default defineNuxtConfig({
     tiptap: {
         prefix: "Tiptap",
     },
+    runtimeConfig: {
+        public: {
+            apiUrl: process.env.BACKEND_API
+        }
+    }
 });
