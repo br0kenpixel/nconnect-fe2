@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeders\SpeakerSeeder;
+use Database\Seeders\StageSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SpeakerSeeder::class);
         $this->call(SponsorSeeder::class);
         $this->call(ConferenceSeeder::class);
+        $this->call(StageSeeder::class);
     }
 }

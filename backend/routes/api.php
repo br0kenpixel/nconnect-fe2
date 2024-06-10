@@ -33,3 +33,11 @@ Route::prefix("/conferences")->group(function () {
         // TODO: ...
     });
 });
+
+Route::prefix("/stages")->group(function () {
+    Route::get("/", [ConferenceController::class, 'all']);
+
+    Route::middleware("auth:sanctum")->group(function () {
+        // TODO: ...
+    });
+});
