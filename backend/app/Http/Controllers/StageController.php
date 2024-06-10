@@ -9,8 +9,8 @@ class StageController extends Controller
 {
     public function all(): JsonResponse
     {
-        $sponsors = Stage::all(["id", "conference", "name"]);
+        $stages = Stage::with("conference:id,year,date")->get(["id", "conference", "name"])->all();
 
-        return response()->json($sponsors);
+        return response()->json($stages);
     }
 }

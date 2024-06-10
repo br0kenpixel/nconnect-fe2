@@ -16,6 +16,6 @@ class Stage extends Model
 
     public function conference(): BelongsTo
     {
-        return $this->belongsTo(Conference::class);
+        return $this->belongsTo(Conference::class, "conference");
     }
 }
