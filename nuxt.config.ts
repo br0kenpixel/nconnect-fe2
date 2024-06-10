@@ -10,7 +10,8 @@ export default defineNuxtConfig({
                 // @ts-expect-error
                 config.plugins.push(vuetify({ autoImport: true }))
             })
-        }
+        },
+        "nuxt-tiptap-editor"
     ],
     build: {
         transpile: ['vuetify']
@@ -21,5 +22,8 @@ export default defineNuxtConfig({
                 transformAssetUrls,
             }
         }
-    }
+    },
+    tiptap: {
+        prefix: "Tiptap",
+    },
 });
