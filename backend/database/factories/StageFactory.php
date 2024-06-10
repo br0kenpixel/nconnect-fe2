@@ -19,7 +19,7 @@ class StageFactory extends Factory
     {
         return [
             "conference" => Conference::all()->random()->id,
-            "name" => fake()->randomKey(["AI & DATA", "Hacking", "Python world", "Linux world", "Data collection", "Web development", "Game development", "Mac Software"])
+            "name" => fake()->randomElement(["AI & DATA", "Hacking", "Python world", "Linux world", "Data collection", "Web development", "Game development", "Mac Software"])
         ];
     }
 }

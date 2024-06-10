@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
+use App\Http\Controllers\StageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +36,7 @@ Route::prefix("/conferences")->group(function () {
 });
 
 Route::prefix("/stages")->group(function () {
-    Route::get("/", [ConferenceController::class, 'all']);
+    Route::get("/", [StageController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
         // TODO: ...
