@@ -1,31 +1,12 @@
 <script setup lang="ts">
+import type { Speaker } from '~/types/public';
+
 definePageMeta({
     layout: 'admin',
 });
 
-const speakers = [
-    {
-        name: "Albert Einstein",
-        image: "/",
-        company: "Einstein Inc.",
-        description: "A mad scientist.",
-        headliner: false,
-    },
-    {
-        name: "Albert Einstein",
-        image: "/",
-        company: "Einstein Inc.",
-        description: "A mad scientist.",
-        headliner: true,
-    },
-    {
-        name: "Albert Einstein",
-        image: "/",
-        company: "Einstein Inc.",
-        description: "A mad scientist.",
-        headliner: false,
-    },
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`);
 </script>
 
 <template>
@@ -61,7 +42,7 @@ const speakers = [
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="speaker in speakers">
+                <tr v-for="speaker in data">
                     <td>{{ speaker.name }}</td>
                     <td>
                         {{ speaker.headliner ? "✅" : "❌" }}

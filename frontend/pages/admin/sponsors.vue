@@ -1,14 +1,12 @@
 <script setup lang="ts">
+import type { Sponsor } from '~/types/public';
+
 definePageMeta({
     layout: 'admin'
 });
 
-const sponsors = [
-    { id: 0, name: "IBM", image: "..." },
-    { id: 1, name: "Microsoft", image: "..." },
-    { id: 2, name: "Google", image: "..." },
-    { id: 3, name: "Meta", image: "..." },
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiUrl}/sponsors`);
 </script>
 
 <template>
@@ -29,7 +27,15 @@ const sponsors = [
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
@@ -41,7 +47,7 @@ const sponsors = [
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="sponsor in sponsors">
+                <tr v-for="sponsor in data">
                     <td>{{ sponsor.name }}</td>
                     <td class="text-right">
                         <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"

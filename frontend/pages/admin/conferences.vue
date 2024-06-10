@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { Conference } from '~/types/private';
+
 definePageMeta({
     layout: 'admin'
 });
 
-const conferences = [
-    { year: "2024", date: "15.04.2024" }
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`);
 </script>
 
 <template>
@@ -26,7 +27,15 @@ const conferences = [
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
@@ -41,7 +50,7 @@ const conferences = [
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="conference in conferences">
+                <tr v-for="conference in data">
                     <td>{{ conference.year }}</td>
                     <td>{{ conference.date }}</td>
                     <td class="text-right">
