@@ -18,7 +18,7 @@ class SpeakerFactory extends Factory
     {
         $image_path = fake()->image(width: 8, height: 8, format: "png");
         $raw_image = file_get_contents($image_path);
-        $image = base64_encode($raw_image);
+        $image = "data:image/jpeg;base64, " . base64_encode($raw_image);
 
         return [
             "name" => fake()->firstName() . " " . fake()->lastName(),
