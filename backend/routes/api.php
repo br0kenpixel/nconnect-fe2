@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use Illuminate\Http\Request;
@@ -19,6 +20,14 @@ Route::prefix("/speakers")->group(function () {
 
 Route::prefix("/sponsors")->group(function () {
     Route::get("/", [SponsorController::class, 'all']);
+
+    Route::middleware("auth:sanctum")->group(function () {
+        // TODO: ...
+    });
+});
+
+Route::prefix("/conferences")->group(function () {
+    Route::get("/", [ConferenceController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
         // TODO: ...
