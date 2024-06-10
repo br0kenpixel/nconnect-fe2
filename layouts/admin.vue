@@ -4,6 +4,7 @@ const links = [
     { display: "Manažment konferencií", to: "admin-conferences" },
     { display: "Manažment stageov", to: "admin-stages" },
     { display: "Manažment speakerov", to: "admin-speakers" },
+    { display: "Manažment prednášok", to: "admin-schedules" },
     { display: "Manažment partnerov", to: "admin-sponsors" },
 ];
 </script>
