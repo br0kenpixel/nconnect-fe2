@@ -1,22 +1,12 @@
 <script setup lang="ts">
+import type { Stage } from '~/types/private';
+
 definePageMeta({
     layout: 'admin',
 });
 
-const stages = [
-    {
-        conference_year: "2024",
-        name: "AI & DATA"
-    },
-    {
-        conference_year: "2023",
-        name: "COLLECTION"
-    },
-    {
-        conference_year: "2024",
-        name: "HACKING"
-    },
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`);
 </script>
 
 <template>
@@ -37,7 +27,15 @@ const stages = [
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
@@ -52,10 +50,10 @@ const stages = [
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="stage in stages">
+                <tr v-for="stage in data">
                     <td>{{ stage.name }}</td>
                     <td>
-                        {{ stage.conference_year }}
+                        {{ stage.conference.year }}
                     </td>
                     <td class="text-right">
                         <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
