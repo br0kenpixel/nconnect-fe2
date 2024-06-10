@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\StageController;
@@ -37,6 +38,14 @@ Route::prefix("/conferences")->group(function () {
 
 Route::prefix("/stages")->group(function () {
     Route::get("/", [StageController::class, 'all']);
+
+    Route::middleware("auth:sanctum")->group(function () {
+        // TODO: ...
+    });
+});
+
+Route::prefix("/schedule")->group(function () {
+    Route::get("/", [ScheduleController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
         // TODO: ...
