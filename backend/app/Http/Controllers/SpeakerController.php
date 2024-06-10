@@ -9,7 +9,7 @@ class SpeakerController extends Controller
 {
     public function all(): JsonResponse
     {
-        $speakers = Speaker::all(["name", "company", "description", "image", "headliner"]);
+        $speakers = Speaker::all(["id", "name", "company", "description", "image", "headliner"]);
 
         return response()->json($speakers);
     }
