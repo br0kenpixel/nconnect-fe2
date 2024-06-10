@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $faker = fake();
+        $faker->addProvider(new \Mmo\Faker\PicsumProvider($faker));
+        $faker->addProvider(new \Mmo\Faker\LoremSpaceProvider($faker));
+        $faker->addProvider(new \Mmo\Faker\FakeimgProvider($faker));
     }
 }

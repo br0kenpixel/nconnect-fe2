@@ -16,7 +16,7 @@ class SponsorFactory extends Factory
      */
     public function definition(): array
     {
-        $image_path = fake()->image(width: 32, height: 32, format: "png");
+        $image_path = fake()->picsum(null, 128, 128, true);
         $raw_image = file_get_contents($image_path);
         $image = "data:image/jpeg;base64, " . base64_encode($raw_image);
 
