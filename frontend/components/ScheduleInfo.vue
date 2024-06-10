@@ -2,7 +2,7 @@
     <div class="card mb-3" style="max-width: 540px;" id="card-root">
         <div class="row g-0">
             <div class="col-md-4">
-                <NuxtImg src="/" class="img-fluid rounded-start" :alt="speaker" />
+                <img :src="image" class="img-fluid rounded-start" :alt="speaker" />
             </div>
             <div class="col-md-8">
                 <div class="card-body">

@@ -1,61 +1,9 @@
 <script setup lang="ts">
-const schedule = [
-    {
-        stage: "DATA & AI",
-        when: "12.03.2020",
-        schedule: [
-            {
-                from: "09:00",
-                to: "10:00",
-                title: "Event preparation",
-                description: "Preparing fot the event",
-                speaker: null
-            },
-            {
-                from: "10:15",
-                to: "12:00",
-                title: "Data collection using Python",
-                description: "Collecting user data with Python",
-                speaker: {
-                    name: "John Doe",
-                    image: "/",
-                    employer: "IBM"
-                }
-            },
-            {
-                from: "12:05",
-                to: "12:30",
-                title: "Coffee break",
-                description: "Driking coffee...",
-                speaker: null,
-            }
-        ]
-    },
-    {
-        stage: "PENTESTING",
-        when: "12.03.2020",
-        schedule: [
-            {
-                from: "09:00",
-                to: "10:00",
-                title: "Event preparation",
-                description: "Preparing fot the event",
-                guests: null
-            },
-            {
-                from: "10:15",
-                to: "12:00",
-                title: "Data collection using Python",
-                description: "Collecting user data with Python",
-                speaker: {
-                    name: "John Doe",
-                    image: "/",
-                    employer: "IBM"
-                }
-            }
-        ]
-    },
-];
+import type { FullSchedule, SimplifiedStage } from '~/types/public';
+
+const config = useRuntimeConfig();
+
+const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`);
 </script>
 
 <template>
@@ -73,9 +21,11 @@ const schedule = [
                     <div class="col-sm">
                         <select class="form-select" v-model="selected_stage">
                             <option :value="null" selected>Select stage</option>
-                            <option v-for="(entry, index) in schedule" :value="index">{{ entry.stage }} ({{
-                                entry.when }})
-                            </option>
+                            <template v-for="conference in data">
+                                <option v-for="(entry, index) in conference.stages" :value="entry">{{ entry.name }} ({{
+                                    conference.date }})
+                                </option>
+                            </template>
                         </select>
                     </div>
                 </div>
@@ -86,12 +36,12 @@ const schedule = [
             <!-- Accordion -->
 
             <div class="accordion accordion-flush" id="accordionFlush" v-if="selected_stage !== null">
-                <div class="accordion-item" v-for="(time_window, index) in schedule[selected_stage].schedule">
+                <div class="accordion-item" v-for="(time_window, index) in selected_stage.schedule">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             :data-bs-target="`#flush-collapse-${index}`" aria-expanded="false"
                             :aria-controls="`flush-collapse-${index}`">
-                            {{ time_window.from }} - {{ time_window.to }} | {{ time_window.title }}
+                            {{ time_window.start }} - {{ time_window.end }} | {{ time_window.title }}
                         </button>
                     </h2>
                     <div :id="`flush-collapse-${index}`" class="accordion-collapse collapse"
@@ -100,7 +50,7 @@ const schedule = [
                             <p>{{ time_window.description }}</p>
                             <div v-if="time_window.speaker">
                                 <ScheduleInfo :speaker="time_window.speaker!.name" :image="time_window.speaker!.image"
-                                    :employer="time_window.speaker!.employer" />
+                                    :employer="time_window.speaker!.company" />
                             </div>
                         </div>
                     </div>
@@ -132,7 +82,7 @@ h5 {
 export default {
     data() {
         return {
-            selected_stage: null as (number | null)
+            selected_stage: null as (SimplifiedStage | null)
         }
     }
 }
