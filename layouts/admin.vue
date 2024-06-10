@@ -7,6 +7,7 @@ const links = [
     { display: "Manažment prednášok", to: "admin-schedules" },
     { display: "Manažment partnerov", to: "admin-sponsors" },
     { display: "Vlastné stránky", to: "admin-custom_pages" },
+    { display: "Galéria", to: "admin-gallery" },
 ];
 </script>
 
