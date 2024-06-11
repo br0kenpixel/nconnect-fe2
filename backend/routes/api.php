@@ -44,7 +44,9 @@ Route::prefix("/stages")->group(function () {
     Route::get("/", [StageController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [StageController::class, 'create']);
+        Route::post("/{id}", [StageController::class, 'update']);
+        Route::delete("/{id}", [StageController::class, 'delete']);
     });
 });
 
