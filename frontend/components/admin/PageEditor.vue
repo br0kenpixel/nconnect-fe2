@@ -66,7 +66,7 @@
                 </v-col>
             </v-row>
 
-            <TiptapEditorContent :editor="editor" id="editor" />
+            <editor-content :editor="editor" id="editor" />
         </div>
     </div>
 </template>
@@ -84,13 +84,48 @@
 }
 </style>
 
-<script setup>
-const editor = useEditor({
-    content: "<p>I'm running Tiptap with Vue.js. 🎉</p>",
-    extensions: [TiptapStarterKit],
-});
+<script lang="ts">
+import { Editor, EditorContent } from '@tiptap/vue-3';
+import StarterKit from '@tiptap/starter-kit';
 
-onBeforeUnmount(() => {
-    unref(editor)?.destroy();
-});
+export default {
+    components: {
+        EditorContent,
+    },
+    props: {
+        modelValue: {
+            type: String,
+            default: '',
+        },
+    },
+    emits: ['update:modelValue'],
+    data() {
+        return {
+            editor: null,
+        }
+    },
+    mounted() {
+        this.editor = new Editor({
+            content: this.modelValue,
+            extensions: [
+                StarterKit,
+            ],
+            onUpdate: () => {
+                this.$emit('update:modelValue', this.editor.getHTML())
+            },
+        });
+    },
+    watch: {
+        modelValue(value) {
+            const isSame = this.editor.getHTML() === value;
+            if (isSame) {
+                return;
+            }
+            this.editor.commands.setContent(value, false);
+        },
+    },
+    beforeUnmount() {
+        this.editor.destroy();
+    }
+}
 </script>
