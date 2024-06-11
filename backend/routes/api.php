@@ -69,7 +69,9 @@ Route::prefix("/custom_pages")->group(function () {
     Route::get("/{id}", [CustomPageController::class, 'get']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [CustomPageController::class, 'create']);
+        Route::post("/{id}", [CustomPageController::class, 'update']);
+        Route::delete("/{id}", [CustomPageController::class, 'delete']);
     });
 });
 
