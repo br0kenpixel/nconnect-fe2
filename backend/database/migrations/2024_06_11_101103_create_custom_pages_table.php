@@ -13,7 +13,7 @@ return new class extends Migration {
     {
         Schema::create('custom_pages', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 12)->unique();
+            $table->string("name", 16)->unique();
             $table->text("content");
             $table->enum("display", [CustomPage::DISPLAY_NONE, CustomPage::DISPLAY_NAV, CustomPage::DISPLAY_BOTTOM]);
             $table->timestamps();
