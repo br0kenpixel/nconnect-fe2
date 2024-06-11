@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
-use App\Models\Sponsor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,12 +19,7 @@ class ConferenceController extends Controller
 
     public function create(Request $request): Response
     {
-        $validated = Validator::make($request->all(), [
-            "year" => "required|integer",
-            "date" => "required|date_format:d.m.Y"
-        ], $request->all());
-
-        if ($validated->fails()) {
+        if (!$this->validate_request($request)) {
             return response(status: 400);
         }
 
@@ -38,5 +32,26 @@ class ConferenceController extends Controller
     {
         Conference::find($id)->deleteOrFail();
         return response(status: 201);
+    }
+
+    public function update(int $id, Request $request): Response
+    {
+        if (!$this->validate_request($request)) {
+            return response(status: 400);
+        }
+
+        Conference::find($id)->updateOrFail($request->all());
+
+        return response(status: 201);
+    }
+
+    private function validate_request(Request $request): bool
+    {
+        $validated = Validator::make($request->all(), [
+            "year" => "required|integer",
+            "date" => "required|date_format:d.m.Y"
+        ], $request->all());
+
+        return $validated->passes();
     }
 }

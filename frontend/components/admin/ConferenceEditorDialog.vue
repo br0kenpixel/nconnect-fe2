@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VDateInput } from 'vuetify/labs/VDateInput';
+import type { Conference } from '~/types/private';
 </script>
 
 <template>
@@ -62,9 +63,13 @@ export default {
         canFinish() {
             return this.date !== null;
         },
-        show(editing_id?: number) {
+        show(prefill?: Conference) {
             this.dialog = true;
-            this.editing_id = editing_id !== undefined ? editing_id : null;
+
+            if (prefill !== undefined) {
+                this.editing_id = prefill.id;
+                this.date = new Date(prefill.date);
+            }
         },
         close() {
             this.dialog = false;

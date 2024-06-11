@@ -15,9 +15,11 @@ function newConferenceDialog() {
     dialog.value!.show();
 }
 
-function handleEditor(result: { id: null | number, date: Date }) {
+async function handleEditor(result: { id: null | number, date: Date }) {
     if (result.id === null) {
-        createNewConference(result.date);
+        await createNewConference(result.date);
+    } else {
+        await updateConference(result.id, result.date);
     }
 }
 
@@ -25,6 +27,21 @@ async function createNewConference(date: Date) {
     try {
         await client(`/api/conferences`, {
             method: "PUT",
+            body: {
+                year: date.getFullYear(),
+                date: `${date.getDate().toString().padStart(2, "0")}.${date.getMonth().toString().padStart(2, "0")}.${date.getFullYear()}`
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function updateConference(id: number, date: Date) {
+    try {
+        await client(`/api/conferences/${id}`, {
+            method: "POST",
             body: {
                 year: date.getFullYear(),
                 date: `${date.getDate().toString().padStart(2, "0")}.${date.getMonth().toString().padStart(2, "0")}.${date.getFullYear()}`
@@ -45,6 +62,10 @@ async function deleteConference(id: number) {
     } catch (e) {
         console.error(e);
     }
+}
+
+function editConference(conference: Conference) {
+    dialog.value!.show(conference);
 }
 </script>
 
@@ -83,8 +104,8 @@ async function deleteConference(id: number) {
                     <td class="text-right">
                         <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline" base-color="red"
                             @click="async () => deleteConference(conference.id)">Zmazať</v-btn>
-                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                            base-color="orange">Editovať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil" base-color="orange"
+                            @click="() => editConference(conference)">Editovať</v-btn>
                     </td>
                 </tr>
             </tbody>
