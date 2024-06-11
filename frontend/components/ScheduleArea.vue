@@ -3,7 +3,7 @@ import type { FullSchedule, SimplifiedStage } from '~/types/public';
 
 const config = useRuntimeConfig();
 
-const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`);
+const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, { lazy: true });
 </script>
 
 <template>
@@ -13,7 +13,24 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
 
             <hr>
 
-            <div class="container">
+            <div class="container" v-if="pending">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col-sm-2">
+                        <span>Select stage:</span>
+                    </div>
+                    <div class="col-sm">
+                        <select class="form-select" disabled>
+                            <option :value="null" selected>Loading</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" role="alert" v-else-if="error">
+                Nepodarilo sa načítať obsah.
+            </div>
+
+            <div class="container" v-else>
                 <div class="row justify-content-center align-items-center">
                     <div class="col-sm-2">
                         <span>Select stage:</span>
