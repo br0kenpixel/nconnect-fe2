@@ -5,6 +5,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
 use App\Http\Controllers\StageController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,3 +52,5 @@ Route::prefix("/schedule")->group(function () {
         // TODO: ...
     });
 });
+
+Route::get("/stats", [StatsController::class, 'basic']);

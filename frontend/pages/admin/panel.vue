@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import type { Stats } from '~/types/public';
+
 definePageMeta({
     layout: 'admin'
 });
 
 const date = new Date();
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Stats>(`${config.public.apiUrl}/stats`, { lazy: true });
 </script>
 
 <template>
@@ -15,7 +19,16 @@ const date = new Date();
         <p>Dnes je {{ date.getDay() }}.{{ date.getMonth() }}.{{ date.getFullYear() }}.</p>
 
         <h3>Štatistiky</h3>
-        <v-table>
+
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
@@ -27,43 +40,27 @@ const date = new Date();
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in stats_table" :key="item.name">
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.amount }}</td>
+                <tr>
+                    <td>Počet konferencií</td>
+                    <td>{{ data.conferences }}</td>
+                </tr>
+                <tr>
+                    <td>Celkový počet účastníkov</td>
+                    <td>{{ data.attendees }}</td>
+                </tr>
+                <tr>
+                    <td>Celkový počet stageov</td>
+                    <td>{{ data.stages }}</td>
+                </tr>
+                <tr>
+                    <td>Najbližšia konferencia</td>
+                    <td>{{ data.next_conference }}</td>
+                </tr>
+                <tr>
+                    <td>Posledná registrácia</td>
+                    <td>{{ data.last_registration }}</td>
                 </tr>
             </tbody>
         </v-table>
     </div>
 </template>
-
-<script lang="ts">
-export default {
-    data() {
-        return {
-            stats_table: [
-                {
-                    name: 'Počet konferencií',
-                    amount: 159,
-                },
-                {
-                    name: 'Celkový počet účastníkov',
-                    amount: 237,
-                },
-                {
-                    name: "Celkový počet stageov",
-                    amount: 90,
-                },
-                {
-                    name: "Najbližšia konferencia",
-                    amount: "-"
-                },
-                {
-                    name: "Posledná registrácia",
-                    amount: "-"
-                },
-
-            ],
-        }
-    },
-}
-</script>

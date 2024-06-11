@@ -31,3 +31,11 @@ export type FullSchedule = {
     date: string;
     stages: SimplifiedStage[];
 };
+
+export type Stats = {
+    conferences: number;
+    attendees: number;
+    stages: number;
+    next_conference: number;
+    last_registration: number;
+};
