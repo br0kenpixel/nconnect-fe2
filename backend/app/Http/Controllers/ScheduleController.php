@@ -22,14 +22,12 @@ class ScheduleController extends Controller
             foreach ($stages as $stage) {
                 $schedule = Schedule::where("stage", "=", $stage->id)
                     ->with("speaker:id,name,company,image,headliner")
-                    ->get(["title", "description", "start", "end", "speaker"])
+                    ->get(["id", "title", "description", "start", "end", "speaker"])
                     ->all();
                 $stage["schedule"] = $schedule;
-                unset($stage["id"]);
             }
 
             $conference["stages"] = $stages;
-            unset($conference["id"]);
         }
 
         return response()->json($conferences);
@@ -58,7 +56,12 @@ class ScheduleController extends Controller
             return response(status: 400);
         }
 
-        Schedule::find($id)->updateOrFail($request->all());
+        $keys = $request->all();
+        if ($keys["speaker"] === null) {
+            unset($keys["speaker"]);
+        }
+
+        Schedule::find($id)->updateOrFail($keys);
 
         return response(status: 204);
     }
@@ -67,10 +70,10 @@ class ScheduleController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "title" => "required|max:64",
-            "description" => "required|date_format:d.m.Y",
+            "description" => "required",
             "start" => "required|date_format:H:i",
             "end" => "required|date_format:H:i|after:start",
-            "speaker" => "required|integer",
+            "speaker" => "nullable|integer",
             "stage" => "required|integer"
         ], $request->all());
 

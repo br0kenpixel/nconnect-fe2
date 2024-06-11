@@ -13,20 +13,23 @@ export type Sponsor = {
     image: string;
 };
 
+export type Schedule = {
+    id: number;
+    title: string;
+    description: string;
+    start: string;
+    end: string;
+    speaker: Speaker | null;
+};
+
 export type SimplifiedStage = {
-    name: string,
-    schedule: [
-        {
-            title: string,
-            description: string,
-            start: string,
-            end: string,
-            speaker: Speaker | null
-        }
-    ]
+    id: number;
+    name: string;
+    schedule: Schedule[];
 };
 
 export type FullSchedule = {
+    id: number;
     year: number;
     date: string;
     stages: SimplifiedStage[];

@@ -1,13 +1,116 @@
 <script setup lang="ts">
-import type { FullSchedule } from '~/types/public';
+import type { Conference, Stage } from '~/types/private';
+import type { FullSchedule, Schedule, SimplifiedStage, Speaker } from '~/types/public';
 
 definePageMeta({
     layout: 'admin',
     middleware: ['sanctum:auth']
 });
 
+type EditorData = {
+    id: number | null;
+    title: string;
+    description: string;
+    start: string;
+    end: string;
+    stage: Stage;
+    speaker: Speaker | null;
+};
+
 const config = useRuntimeConfig();
+const dialog = ref(null as any);
+const client = useSanctumClient();
 const { data, pending, error, refresh } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, { lazy: true });
+
+function newScheduleDialog() {
+    dialog.value!.show();
+}
+
+async function handleEditor(result: EditorData) {
+    if (result.id === null) {
+        await createNewSchedule(result.title, result.description, result.start, result.end, result.stage, result.speaker);
+    } else {
+        await updateSchedule(result.id, result.title, result.description, result.start, result.end, result.stage, result.speaker);
+    }
+}
+
+async function createNewSchedule(
+    title: string,
+    description: string,
+    start: string,
+    end: string,
+    stage: Stage,
+    speaker: Speaker | null
+) {
+    try {
+        await client(`/api/schedule`, {
+            method: "PUT",
+            body: {
+                title: title,
+                description: description,
+                start: start,
+                end: end,
+                stage: stage.id,
+                speaker: speaker !== null ? speaker.id : null
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function updateSchedule(
+    id: number,
+    title: string,
+    description: string,
+    start: string,
+    end: string,
+    stage: Stage,
+    speaker: Speaker | null
+) {
+    try {
+        await client(`/api/schedule/${id}`, {
+            method: "POST",
+            body: {
+                title: title,
+                description: description,
+                start: start,
+                end: end,
+                stage: stage.id,
+                speaker: speaker !== null ? speaker.id : null
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function deleteSchedule(id: number) {
+    try {
+        await client(`/api/schedule/${id}`, {
+            method: "DELETE"
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function editSchedule(schedule: Schedule, stage: SimplifiedStage, full_sched: FullSchedule) {
+    let full_stage: Stage = {
+        id: stage.id,
+        conference: {
+            id: full_sched.id,
+            year: full_sched.year,
+            date: full_sched.date
+        },
+        name: stage.name
+    };
+
+    dialog.value!.show(schedule, full_stage);
+}
 </script>
 
 <template>
@@ -62,9 +165,9 @@ const { data, pending, error, refresh } = await useFetch<FullSchedule[]>(`${conf
                             <td>{{ conference.year }}</td>
                             <td class="text-right">
                                 <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                                    base-color="red">Zmazať</v-btn>
-                                <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                                    base-color="orange">Editovať</v-btn>
+                                    base-color="red" @click="async () => deleteSchedule(entry.id)">Zmazať</v-btn>
+                                <v-btn class="m-1" density="compact" append-icon="mdi-pencil" base-color="orange"
+                                    @click="() => editSchedule(entry, stage, conference)">Editovať</v-btn>
                             </td>
                         </tr>
                     </template>
@@ -72,7 +175,7 @@ const { data, pending, error, refresh } = await useFetch<FullSchedule[]>(`${conf
             </tbody>
         </v-table>
 
-        <AdminScheduleEditorDialog ref="schedule-editor" />
+        <AdminScheduleEditorDialog ref="dialog" @finished="handleEditor" />
     </div>
 </template>
 
@@ -86,13 +189,3 @@ th {
     font-weight: bold !important;
 }
 </style>
-
-<script lang="ts">
-export default {
-    methods: {
-        newScheduleDialog() {
-            (this.$refs['schedule-editor'] as any).show();
-        }
-    }
-}
-</script>

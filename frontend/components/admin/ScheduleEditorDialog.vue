@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { VTimePicker } from 'vuetify/labs/VTimePicker';
+const config = useRuntimeConfig();
+const { data: stage_data, pending: stage_pending } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`, { lazy: true });
+const { data: speaker_data, pending: speaker_pending } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, { lazy: true });
 </script>
 
 <template>
@@ -34,25 +36,18 @@ import { VTimePicker } from 'vuetify/labs/VTimePicker';
                 <v-row dense>
                     <v-col>
                         <small>Speaker (ak udalosť nie je pauza):</small>
-                        <v-autocomplete label="Speaker"
-                            :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                            v-model="speaker"></v-autocomplete>
+                        <p v-if="speaker_pending">Načítavam...</p>
+                        <v-autocomplete v-else label="Speaker" :items="speaker_data" item-title="name" v-model="speaker"
+                            return-object></v-autocomplete>
                     </v-col>
                 </v-row>
 
                 <v-row dense>
                     <v-col>
-                        <v-autocomplete label="Stage"
-                            :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+                        <p v-if="stage_pending">Načítavam...</p>
+                        <v-autocomplete v-else label="Stage" :items="stage_data"
+                            :item-title="(item: Stage) => item.name + ' (' + item.conference.year + ')'" return-object
                             v-model="stage"></v-autocomplete>
-                    </v-col>
-                </v-row>
-
-                <v-row dense>
-                    <v-col>
-                        <v-select label="Ročník"
-                            :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
-                            v-model="year"></v-select>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -71,8 +66,12 @@ import { VTimePicker } from 'vuetify/labs/VTimePicker';
 </template>
 
 <script lang="ts">
+import type { Stage } from '~/types/private';
+import type { Schedule, Speaker } from '~/types/public';
+
 export default {
     expose: ['show'],
+    emits: ['finished'],
 
     data() {
         return this.initialData();
@@ -83,13 +82,13 @@ export default {
             return {
                 dialog: false,
                 error: false,
+                editing_id: null as (number | null),
                 title: "",
                 description: "",
                 from: "",
                 to: "",
-                stage: "",
-                year: "",
-                speaker: null,
+                stage: null as (Stage | null),
+                speaker: null as (Speaker | null),
                 menu2: false,
             };
         },
@@ -101,10 +100,20 @@ export default {
                 this.description.length > 0 &&
                 this.from.length === 5 &&
                 this.to.length === 5 &&
-                this.stage.length > 0
+                this.stage !== null;
         },
-        show() {
+        show(prefill_sched?: Schedule, prefill_stage?: Stage) {
             this.dialog = true;
+
+            if (prefill_sched !== undefined && prefill_stage !== undefined) {
+                this.editing_id = prefill_sched.id;
+                this.title = prefill_sched.title;
+                this.description = prefill_sched.description;
+                this.from = prefill_sched.start;
+                this.to = prefill_sched.end;
+                this.stage = prefill_stage;
+                this.speaker = prefill_sched.speaker;
+            }
         },
         close() {
             this.dialog = false;
@@ -116,6 +125,15 @@ export default {
                 return;
             }
 
+            this.$emit("finished", {
+                id: this.editing_id,
+                title: this.title,
+                description: this.description,
+                start: this.from,
+                end: this.to,
+                stage: this.stage,
+                speaker: this.speaker,
+            });
             this.close();
         }
     },
