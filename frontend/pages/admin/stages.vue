@@ -6,7 +6,7 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`);
+const { data, pending, error } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`, { lazy: true });
 </script>
 
 <template>

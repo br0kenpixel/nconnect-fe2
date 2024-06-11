@@ -6,7 +6,7 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiUrl}/sponsors`);
+const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiUrl}/sponsors`, { lazy: true });
 </script>
 
 <template>

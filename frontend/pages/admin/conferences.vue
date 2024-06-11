@@ -6,7 +6,7 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`);
+const { data, pending, error } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`, { lazy: true });
 </script>
 
 <template>
