@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { User } from '~/types/private';
 import type { Stats } from '~/types/public';
 
 definePageMeta({
@@ -8,12 +9,13 @@ definePageMeta({
 
 const date = new Date();
 const config = useRuntimeConfig();
+const user = useSanctumUser<User>();
 const { data, pending, error } = await useFetch<Stats>(`${config.public.apiUrl}/stats`, { lazy: true });
 </script>
 
 <template>
     <div class="container">
-        <h1>Vitajte, user!</h1>
+        <h1>Vitajte, {{ user!.name }}!</h1>
 
         <br>
 

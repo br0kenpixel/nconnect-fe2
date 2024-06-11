@@ -1,7 +1,31 @@
 <script lang="ts" setup>
+import { FetchError } from 'ofetch';
+
 definePageMeta({
     middleware: ['sanctum:guest'],
 });
+
+const form = ref({
+    email: "",
+    password: "",
+});
+const error = ref(null as null | string);
+const { login } = useSanctumAuth();
+
+async function handleLogin() {
+    error.value = null;
+
+    try {
+        await login({
+            email: form.value.email,
+            password: form.value.password
+        });
+    } catch (e) {
+        if (e instanceof FetchError && e.response?.status === 422) {
+            error.value = e.response?._data.message;
+        }
+    }
+}
 </script>
 
 <template>
@@ -9,18 +33,18 @@ definePageMeta({
         <v-sheet class="pa-14" rounded>
             <h3 class="text-center">Prihlásenie</h3>
 
-            <v-alert v-if="error !== null" density="compact" text="Zadané prihlasovacie meno alebo heslo je nesprávne."
-                title="Chyba" type="error" id="login-error-alert" class="mx-auto"></v-alert>
+            <v-alert v-if="error !== null" density="compact" :text="error" title="Chyba" type="error"
+                id="login-error-alert" class="mx-auto"></v-alert>
 
             <br>
 
             <v-card class="mx-auto px-6 py-8" max-width="344">
-                <v-form v-model="form" @submit.prevent="onSubmit">
-                    <v-text-field v-model="email" :disabled="loading" :rules="[required]" class="mb-2" label="Email"
-                        clearable></v-text-field>
+                <v-form @submit.prevent="handleLogin">
+                    <v-text-field v-model="form.email" :disabled="loading" :rules="[required]" class="mb-2"
+                        label="Email" clearable></v-text-field>
 
-                    <v-text-field v-model="password" :disabled="loading" :rules="[required]" label="Heslo"
-                        placeholder="Zadajte heslo" clearable></v-text-field>
+                    <v-text-field v-model="form.password" :disabled="loading" :rules="[required]" label="Heslo"
+                        placeholder="Zadajte heslo" clearable type="password"></v-text-field>
 
                     <br>
 
@@ -43,23 +67,30 @@ definePageMeta({
 <script lang="ts">
 export default {
     data: () => ({
-        form: false,
-        email: null,
-        password: null,
         loading: false,
-        error: null as (null | string)
     }),
 
     methods: {
         onSubmit() {
-            if (!this.form) return;
+            //if (!this.form) return;
             this.loading = true;
 
-            setTimeout(() => (this.loading = false), 4000);
+            //setTimeout(() => (this.loading = false), 4000);
+            this.tryLogin();
         },
         required(v: any) {
             return !!v || 'Povinné pole';
         },
+        async tryLogin() {
+            /*try {
+                const result = await login({
+                    email: this.email,
+                    password: this.password
+                });
+            } catch (error) {
+                console.log(error);
+            }*/
+        }
     },
 }
 </script>

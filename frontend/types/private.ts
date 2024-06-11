@@ -18,3 +18,8 @@ export type CustomPage = {
     content: string;
     display: CustomPageVisibility;
 };
+
+export type User = {
+    id: number;
+    name: string;
+};
