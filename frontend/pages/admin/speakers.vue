@@ -43,14 +43,6 @@ async function createNewSpeaker(name: string, image: string, employer: string, d
 }
 
 async function updateSpeaker(id: number, name: string, image: string | null, employer: string, description: string, headliner: boolean) {
-    console.log({
-        name: name,
-        company: employer,
-        description: description,
-        image: image,
-        headliner: headliner,
-    });
-
     try {
         await client(`/api/speakers/${id}`, {
             method: "POST",
