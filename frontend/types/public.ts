@@ -1,5 +1,3 @@
-import type { Stage } from "./private";
-
 export type Speaker = {
     id: number;
     name: string;
@@ -23,7 +21,7 @@ export type SimplifiedStage = {
             description: string,
             start: string,
             end: string,
-            speaker?: Speaker
+            speaker: Speaker | null
         }
     ]
 };
