@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { logout } = useSanctumAuth();
+
 const links = [
     { display: "Domov", to: "admin-panel" },
     { display: "Manažment konferencií", to: "admin-conferences" },
@@ -25,7 +27,7 @@ const links = [
                     <client-only>
                         <v-tooltip text="Log out">
                             <template v-slot:activator="{ props }">
-                                <v-btn v-bind="props" icon="mdi-logout"></v-btn>
+                                <v-btn v-bind="props" icon="mdi-logout" @click="logout"></v-btn>
                             </template>
                         </v-tooltip>
                     </client-only>

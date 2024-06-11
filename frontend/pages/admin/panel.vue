@@ -15,7 +15,7 @@ const { data, pending, error } = await useFetch<Stats>(`${config.public.apiUrl}/
 
 <template>
     <div class="container">
-        <h1>Vitajte, {{ user!.name }}!</h1>
+        <h1>Vitajte, {{ user?.name }}!</h1>
 
         <br>
 
