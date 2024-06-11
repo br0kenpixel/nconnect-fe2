@@ -1,42 +1,12 @@
 <script setup lang="ts">
+import type { FullSchedule } from '~/types/public';
+
 definePageMeta({
     layout: 'admin'
 });
 
-const schedules = [
-    {
-        conference_year: "2024",
-        stage: "DATA & AI",
-        date: "22.05.2024",
-        schedule: [
-            {
-                from: "09:00",
-                to: "10:00",
-                title: "Event preparation",
-                description: "Preparing for the event",
-                speaker: null
-            },
-            {
-                from: "10:15",
-                to: "12:00",
-                title: "Data collection using Python",
-                description: "Collecting user data with Python",
-                speaker: {
-                    name: "John Doe",
-                    image: "/",
-                    employer: "IBM"
-                }
-            },
-            {
-                from: "12:05",
-                to: "12:30",
-                title: "Coffee break",
-                description: "Drinking coffee...",
-                speaker: null,
-            }
-        ],
-    }
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, { lazy: true });
 </script>
 
 <template>
@@ -57,7 +27,15 @@ const schedules = [
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
@@ -84,21 +62,23 @@ const schedules = [
                 </tr>
             </thead>
             <tbody>
-                <template v-for="schedule in schedules">
-                    <tr v-for="entry in schedule.schedule">
-                        <td>{{ entry.title }}</td>
-                        <td>{{ entry.from }} - {{ entry.to }}</td>
-                        <td>{{ entry.speaker === null ? "-" : entry.speaker.name }}</td>
-                        <td>{{ schedule.stage }}</td>
-                        <td>{{ schedule.date }}</td>
-                        <td>{{ schedule.conference_year }}</td>
-                        <td class="text-right">
-                            <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                                base-color="red">Zmazať</v-btn>
-                            <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                                base-color="orange">Editovať</v-btn>
-                        </td>
-                    </tr>
+                <template v-for="conference in data">
+                    <template v-for="stage in conference.stages">
+                        <tr v-for="entry in stage.schedule">
+                            <td>{{ entry.title }}</td>
+                            <td>{{ entry.start }} - {{ entry.end }}</td>
+                            <td>{{ entry.speaker === null ? "-" : entry.speaker.name }}</td>
+                            <td>{{ stage.name }}</td>
+                            <td>{{ conference.date }}</td>
+                            <td>{{ conference.year }}</td>
+                            <td class="text-right">
+                                <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
+                                    base-color="red">Zmazať</v-btn>
+                                <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
+                                    base-color="orange">Editovať</v-btn>
+                            </td>
+                        </tr>
+                    </template>
                 </template>
             </tbody>
         </v-table>
