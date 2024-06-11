@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('conferences', function (Blueprint $table) {
             $table->id();
-            $table->year("year")->unique("year_unique_index");
+            $table->year("year")->unique();
             $table->date("date");
             $table->timestamps();
         });

@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('speakers', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 64)->unique("name_unique_index");
+            $table->string("name", 64)->unique();
             $table->string("company", 12);
             $table->text("description");
-            $table->text("image")->unique("image_unique_index");
+            $table->text("image")->unique();
             $table->boolean("headliner");
             $table->timestamps();
         });
