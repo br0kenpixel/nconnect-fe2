@@ -7,7 +7,7 @@ definePageMeta({
 
 const config = useRuntimeConfig();
 const route = useRoute();
-const { data, pending, error } = await useFetch<CustomPage>(`${config.public.apiUrl}/custom_pages/${route.params.id}`, { lazy: true });
+const { data, pending, error } = await useFetch<CustomPage>(`${config.public.apiUrl}/custom_pages/${route.params.id}`);
 </script>
 
 <template>
