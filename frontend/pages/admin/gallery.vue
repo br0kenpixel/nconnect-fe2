@@ -12,19 +12,7 @@ const gallery_contents = [
     <div class="container">
         <h1>Galéria</h1>
 
-        <div>
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-plus" base-color="green" @click="newGalleryDialog">
-                    Pridať
-                </v-btn>
-            </div>
-
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-eraser" base-color="red">
-                    Zmazať všetky
-                </v-btn>
-            </div>
-        </div>
+        <AdminBasicOps :adder="newGalleryDialog" :eraser="() => { }" :refresher="() => { }" />
 
         <v-table>
             <thead>

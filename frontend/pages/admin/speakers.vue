@@ -6,26 +6,14 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, { lazy: true });
+const { data, pending, error, refresh } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, { lazy: true });
 </script>
 
 <template>
     <div class="container">
         <h1>Manažment speakerov</h1>
 
-        <div>
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-plus" base-color="green" @click="newSpeakerDialog">
-                    Pridať
-                </v-btn>
-            </div>
-
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-eraser" base-color="red">
-                    Zmazať všetky
-                </v-btn>
-            </div>
-        </div>
+        <AdminBasicOps :adder="newSpeakerDialog" :eraser="() => { }" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

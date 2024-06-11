@@ -42,23 +42,23 @@ const { data, pending, error } = await useFetch<Stats>(`${config.public.apiUrl}/
             <tbody>
                 <tr>
                     <td>Počet konferencií</td>
-                    <td>{{ data.conferences }}</td>
+                    <td>{{ data!.conferences }}</td>
                 </tr>
                 <tr>
                     <td>Celkový počet účastníkov</td>
-                    <td>{{ data.attendees }}</td>
+                    <td>{{ data!.attendees }}</td>
                 </tr>
                 <tr>
                     <td>Celkový počet stageov</td>
-                    <td>{{ data.stages }}</td>
+                    <td>{{ data!.stages }}</td>
                 </tr>
                 <tr>
                     <td>Najbližšia konferencia</td>
-                    <td>{{ data.next_conference }}</td>
+                    <td>{{ data!.next_conference }}</td>
                 </tr>
                 <tr>
                     <td>Posledná registrácia</td>
-                    <td>{{ data.last_registration }}</td>
+                    <td>{{ data!.last_registration }}</td>
                 </tr>
             </tbody>
         </v-table>
