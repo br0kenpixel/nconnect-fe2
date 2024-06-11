@@ -31,7 +31,7 @@ class SpeakerController extends Controller
             return response(status: 400);
         }
 
-        Speaker::create(request()->all());
+        Speaker::create($request->all());
 
         return response(status: 201);
     }
