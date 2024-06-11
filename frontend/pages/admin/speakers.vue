@@ -27,7 +27,15 @@ const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiU
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
