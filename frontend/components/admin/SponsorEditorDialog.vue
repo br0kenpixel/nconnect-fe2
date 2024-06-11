@@ -59,7 +59,7 @@ export default {
         show(prefill?: Sponsor) {
             this.dialog = true;
 
-            if (prefill != undefined) {
+            if (prefill !== undefined) {
                 this.editing_id = prefill.id;
                 this.name = prefill.name;
             }
