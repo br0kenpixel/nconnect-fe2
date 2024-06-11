@@ -35,6 +35,7 @@ Route::prefix("/conferences")->group(function () {
 
     Route::middleware("auth:sanctum")->group(function () {
         Route::put("/", [ConferenceController::class, 'create']);
+        Route::delete("/{id}", [ConferenceController::class, 'delete']);
     });
 });
 
