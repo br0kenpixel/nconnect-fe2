@@ -39,6 +39,7 @@ import type { Sponsor } from '~/types/public';
 
 export default {
     expose: ['show'],
+    emits: ["finished"],
 
     data() {
         return {
