@@ -64,8 +64,8 @@ async function deleteSponsor(id: number) {
     }
 }
 
-function editSponsor(Sponsor: Sponsor) {
-    dialog.value!.show(Sponsor);
+function editSponsor(sponsor: Sponsor) {
+    dialog.value!.show(sponsor);
 }
 </script>
 
