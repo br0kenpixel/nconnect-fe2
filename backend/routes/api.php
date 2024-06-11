@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConferenceController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
@@ -84,6 +85,17 @@ Route::prefix("/reviews")->group(function () {
         Route::put("/", [ReviewController::class, 'create']);
         Route::post("/{id}", [ReviewController::class, 'update']);
         Route::delete("/{id}", [ReviewController::class, 'delete']);
+    });
+});
+
+Route::prefix("/contacts")->group(function () {
+    Route::get("/", [ContactController::class, 'all']);
+    Route::get("/{id}", [ContactController::class, 'get']);
+
+    Route::middleware("auth:sanctum")->group(function () {
+        Route::put("/", [ContactController::class, 'create']);
+        Route::post("/{id}", [ContactController::class, 'update']);
+        Route::delete("/{id}", [ContactController::class, 'delete']);
     });
 });
 

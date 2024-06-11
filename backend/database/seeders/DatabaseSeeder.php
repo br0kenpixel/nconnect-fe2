@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ScheduleSeeder::class);
         $this->call(CustomPageSeeder::class);
         $this->call(ReviewSeeder::class);
+        $this->call(ContactSeeder::class);
     }
 }
