@@ -27,7 +27,7 @@ class CustomPageFactory extends Factory
         return [
             "name" => fake()->text(10),
             "content" => fake()->randomElement($this::HTML_CHOICES),
-            "display" => CustomPage::DISPLAY_NONE,
+            "display" => fake()->randomElement([CustomPage::DISPLAY_NONE, CustomPage::DISPLAY_NAV, CustomPage::DISPLAY_BOTTOM]),
         ];
     }
 }
