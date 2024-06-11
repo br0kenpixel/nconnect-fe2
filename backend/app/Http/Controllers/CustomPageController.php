@@ -10,7 +10,7 @@ class CustomPageController extends Controller
 {
     public function all(): JsonResponse
     {
-        $pages = CustomPage::all(["id", "name", "content", "display"]);
+        $pages = CustomPage::all(["id", "name", "display"]);
 
         return response()->json($pages);
     }
