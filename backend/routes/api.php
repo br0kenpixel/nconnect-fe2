@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\CustomPageController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\SponsorController;
@@ -72,6 +73,17 @@ Route::prefix("/custom_pages")->group(function () {
         Route::put("/", [CustomPageController::class, 'create']);
         Route::post("/{id}", [CustomPageController::class, 'update']);
         Route::delete("/{id}", [CustomPageController::class, 'delete']);
+    });
+});
+
+Route::prefix("/reviews")->group(function () {
+    Route::get("/", [ReviewController::class, 'all']);
+    Route::get("/{id}", [ReviewController::class, 'get']);
+
+    Route::middleware("auth:sanctum")->group(function () {
+        Route::put("/", [ReviewController::class, 'create']);
+        Route::post("/{id}", [ReviewController::class, 'update']);
+        Route::delete("/{id}", [ReviewController::class, 'delete']);
     });
 });
 
