@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Conference } from '~/types/private';
+import type { Conference, Stage } from '~/types/private';
 
 const config = useRuntimeConfig();
 const { data, pending } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`, { lazy: true });
@@ -22,8 +22,8 @@ const { data, pending } = await useFetch<Conference[]>(`${config.public.apiUrl}/
                 <v-row dense>
                     <v-col>
                         <p v-if="pending">Načítavam...</p>
-                        <v-select v-else label="Ročník" clearable variant="underlined"
-                            :items="(data as Conference[]).map((entry) => entry.year)" v-model="year"></v-select>
+                        <v-select v-else label="Ročník" clearable variant="underlined" :items="(data as Conference[])"
+                            item-title="year" v-model="conference" return-object></v-select>
                     </v-col>
                 </v-row>
             </v-card-text>
@@ -44,6 +44,7 @@ const { data, pending } = await useFetch<Conference[]>(`${config.public.apiUrl}/
 <script lang="ts">
 export default {
     expose: ['show'],
+    emits: ['finished'],
 
     data() {
         return this.initialData();
@@ -54,19 +55,26 @@ export default {
             return {
                 dialog: false,
                 error: false,
+                editing_id: null as (number | null),
                 name: "",
-                year: "",
+                conference: null as (Conference | null),
             };
         },
         resetData() {
             Object.assign(this.$data, this.$options.data.apply(this));
         },
         canFinish() {
-            return this.year.length > 0 &&
+            return this.conference !== null &&
                 this.name.length > 0;
         },
-        show() {
+        show(prefill?: Stage) {
             this.dialog = true;
+
+            if (prefill !== undefined) {
+                this.editing_id = prefill.id;
+                this.name = prefill.name;
+                this.conference = prefill.conference;
+            }
         },
         close() {
             this.dialog = false;
@@ -78,6 +86,7 @@ export default {
                 return;
             }
 
+            this.$emit("finished", { id: this.editing_id, name: this.name, conference: this.conference });
             this.close();
         }
     },

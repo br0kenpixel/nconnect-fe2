@@ -1,13 +1,72 @@
 <script setup lang="ts">
-import type { Stage } from '~/types/private';
+import type { Conference, Stage } from '~/types/private';
 
 definePageMeta({
     layout: 'admin',
     middleware: ['sanctum:auth']
 });
 
+const dialog = ref(null as any);
 const config = useRuntimeConfig();
+const client = useSanctumClient();
 const { data, pending, error, refresh } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`, { lazy: true });
+
+function newStageDialog() {
+    dialog.value!.show();
+}
+
+async function handleEditor(result: { id: null | number, name: string, conference: Conference }) {
+    if (result.id === null) {
+        await createNewStage(result.name, result.conference);
+    } else {
+        await updateConference(result.id, result.name, result.conference);
+    }
+}
+
+async function createNewStage(name: string, conference: Conference) {
+    try {
+        await client(`/api/stages`, {
+            method: "PUT",
+            body: {
+                name: name,
+                conference: conference.id
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function updateConference(id: number, name: string, conference: Conference) {
+    try {
+        await client(`/api/stages/${id}`, {
+            method: "POST",
+            body: {
+                name: name,
+                conference: conference.id
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function deleteStage(id: number) {
+    try {
+        await client(`/api/stages/${id}`, {
+            method: "DELETE"
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function editStage(stage: Stage) {
+    dialog.value!.show(stage);
+}
 </script>
 
 <template>
@@ -45,16 +104,16 @@ const { data, pending, error, refresh } = await useFetch<Stage[]>(`${config.publ
                         {{ stage.conference.year }}
                     </td>
                     <td class="text-right">
-                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                            base-color="red">Zmazať</v-btn>
-                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                            base-color="orange">Editovať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline" base-color="red"
+                            @click="async () => deleteStage(stage.id)">Zmazať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil" base-color="orange"
+                            @click="() => editStage(stage)">Editovať</v-btn>
                     </td>
                 </tr>
             </tbody>
         </v-table>
 
-        <AdminStageEditorDialog ref="stage-editor" />
+        <AdminStageEditorDialog ref="dialog" @finished="handleEditor" />
     </div>
 </template>
 
@@ -64,13 +123,3 @@ const { data, pending, error, refresh } = await useFetch<Stage[]>(`${config.publ
     margin: 1px;
 }
 </style>
-
-<script lang="ts">
-export default {
-    methods: {
-        newStageDialog() {
-            (this.$refs['stage-editor'] as any).show();
-        }
-    }
-}
-</script>
