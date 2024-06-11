@@ -56,14 +56,4 @@ class SponsorController extends Controller
 
         return response(status: 204);
     }
-
-    private function validate_request(Request $request): bool
-    {
-        $validated = Validator::make($request->all(), [
-            "name" => "required|max:12",
-            "image" => "required"
-        ], $request->all());
-
-        return $validated->passes();
-    }
 }
