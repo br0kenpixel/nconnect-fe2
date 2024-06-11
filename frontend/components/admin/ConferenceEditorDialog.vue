@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { VDateInput } from 'vuetify/labs/VDateInput';
-
-const current_year = new Date().getFullYear();
 </script>
 
 <template>
@@ -11,13 +9,6 @@ const current_year = new Date().getFullYear();
                 <v-alert v-show="error" text="Prosím vyplňte všetky údaje." title="Chyba" type="error"></v-alert>
 
                 <br />
-
-                <v-row dense>
-                    <v-col>
-                        <v-select label="Ročník" clearable variant="underlined"
-                            :items="[current_year, current_year + 1]" v-model="year"></v-select>
-                    </v-col>
-                </v-row>
 
                 <v-row dense>
                     <v-col>
@@ -49,6 +40,7 @@ small {
 <script lang="ts">
 export default {
     expose: ['show'],
+    emits: ['finished'],
 
     data() {
         return this.initialData();
@@ -57,9 +49,9 @@ export default {
     methods: {
         initialData() {
             return {
+                editing_id: null as (number | null),
                 dialog: false,
                 error: false,
-                year: "",
                 weekendWarning: false,
                 date: null as (null | Date),
             };
@@ -68,11 +60,11 @@ export default {
             Object.assign(this.$data, this.$options.data.apply(this));
         },
         canFinish() {
-            return this.year.length > 0 &&
-                this.date !== null;
+            return this.date !== null;
         },
-        show() {
+        show(editing_id?: number) {
             this.dialog = true;
+            this.editing_id = editing_id !== undefined ? editing_id : null;
         },
         close() {
             this.dialog = false;
@@ -84,6 +76,7 @@ export default {
                 return;
             }
 
+            this.$emit("finished", { id: this.editing_id, date: this.date });
             this.close();
         }
     },
@@ -93,7 +86,8 @@ export default {
             if (!newDialog) this.error = false;
         },
         date(newDate: Date, _) {
-            this.weekendWarning = newDate.getDay() % 6;
+            if (newDate === null) return;
+            this.weekendWarning = newDate.getDay() === 0 || newDate.getDay() === 6;
         }
     }
 }

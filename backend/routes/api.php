@@ -34,7 +34,7 @@ Route::prefix("/conferences")->group(function () {
     Route::get("/", [ConferenceController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [ConferenceController::class, 'create']);
     });
 });
 

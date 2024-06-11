@@ -6,8 +6,35 @@ definePageMeta({
     middleware: ['sanctum:auth']
 });
 
+const dialog = ref(null as any);
 const config = useRuntimeConfig();
+const client = useSanctumClient();
 const { data, pending, error, refresh } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`, { lazy: true });
+
+function newConferenceDialog() {
+    dialog.value!.show();
+}
+
+function handleEditor(result: { id: null | number, date: Date }) {
+    if (result.id === null) {
+        createNewConference(result.date);
+    }
+}
+
+async function createNewConference(date: Date) {
+    try {
+        await client(`/api/conferences`, {
+            method: "PUT",
+            body: {
+                year: date.getFullYear(),
+                date: `${date.getDate().toString().padStart(2, "0")}.${date.getMonth().toString().padStart(2, "0")}.${date.getFullYear()}`
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
 </script>
 
 <template>
@@ -52,7 +79,7 @@ const { data, pending, error, refresh } = await useFetch<Conference[]>(`${config
             </tbody>
         </v-table>
 
-        <AdminConferenceEditorDialog ref="conference-editor" />
+        <AdminConferenceEditorDialog ref="dialog" @finished="handleEditor" />
     </div>
 </template>
 
@@ -66,13 +93,3 @@ th {
     font-weight: bold !important;
 }
 </style>
-
-<script lang="ts">
-export default {
-    methods: {
-        newConferenceDialog() {
-            (this.$refs['conference-editor'] as any).show();
-        }
-    }
-}
-</script>
