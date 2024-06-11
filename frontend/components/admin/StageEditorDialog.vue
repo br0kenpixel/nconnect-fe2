@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const years = ['2023', '2024'];
+import type { Conference } from '~/types/private';
+
+const config = useRuntimeConfig();
+const { data, pending } = await useFetch<Conference[]>(`${config.public.apiUrl}/conferences`, { lazy: true });
 </script>
 
 <template>
@@ -18,8 +21,9 @@ const years = ['2023', '2024'];
 
                 <v-row dense>
                     <v-col>
-                        <v-select label="Ročník" clearable variant="underlined" :items="years"
-                            v-model="year"></v-select>
+                        <p v-if="pending">Načítavam...</p>
+                        <v-select v-else label="Ročník" clearable variant="underlined"
+                            :items="(data as Conference[]).map((entry) => entry.year)" v-model="year"></v-select>
                     </v-col>
                 </v-row>
             </v-card-text>
