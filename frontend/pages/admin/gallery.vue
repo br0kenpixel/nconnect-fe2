@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const gallery_contents = [

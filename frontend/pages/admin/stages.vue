@@ -3,6 +3,7 @@ import type { Stage } from '~/types/private';
 
 definePageMeta({
     layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const config = useRuntimeConfig();

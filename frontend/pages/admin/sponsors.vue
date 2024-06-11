@@ -2,7 +2,8 @@
 import type { Sponsor } from '~/types/public';
 
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const config = useRuntimeConfig();

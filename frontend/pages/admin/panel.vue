@@ -2,7 +2,8 @@
 import type { Stats } from '~/types/public';
 
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const date = new Date();

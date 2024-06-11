@@ -11,7 +11,8 @@ export default defineNuxtConfig({
                 config.plugins.push(vuetify({ autoImport: true }))
             })
         },
-        "nuxt-tiptap-editor"
+        "nuxt-tiptap-editor",
+        "nuxt-auth-sanctum"
     ],
     build: {
         transpile: ['vuetify']
@@ -25,6 +26,18 @@ export default defineNuxtConfig({
     },
     tiptap: {
         prefix: "Tiptap",
+    },
+    sanctum: {
+        baseUrl: 'http://localhost:8000',
+        origin: 'http://localhost:3000',
+        redirect: {
+            onLogin: "/admin/panel",
+            onLogout: "/admin/login",
+            onAuthOnly: '/admin/login',
+            keepRequestedRoute: false,
+            onGuestOnly: false,
+        },
+        redirectIfAuthenticated: true
     },
     runtimeConfig: {
         public: {

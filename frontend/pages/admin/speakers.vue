@@ -3,6 +3,7 @@ import type { Speaker } from '~/types/public';
 
 definePageMeta({
     layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const config = useRuntimeConfig();

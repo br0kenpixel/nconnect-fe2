@@ -2,7 +2,8 @@
 import type { Conference } from '~/types/private';
 
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const config = useRuntimeConfig();

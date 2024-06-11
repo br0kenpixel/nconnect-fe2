@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Database\Seeders\SpeakerSeeder;
 use Database\Seeders\StageSeeder;
 use Illuminate\Database\Seeder;
@@ -13,12 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        /*User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);*/
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@localhost',
+            'password' => bcrypt("admin")
+        ]);
 
         $this->call(SpeakerSeeder::class);
         $this->call(SponsorSeeder::class);

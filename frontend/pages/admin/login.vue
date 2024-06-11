@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+definePageMeta({
+    middleware: ['sanctum:guest'],
+});
+</script>
+
 <template>
     <v-app>
         <v-sheet class="pa-14" rounded>
