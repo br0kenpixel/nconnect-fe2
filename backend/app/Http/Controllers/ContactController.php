@@ -46,7 +46,7 @@ class ContactController extends Controller
         $validated = Validator::make($request->all(), [
             "name" => "required|max:24",
             "phone" => "required|max:13",
-            "email" => "required|email:rfc,dns",
+            "email" => "required|email",
             "image" => "nullable",
         ], $request->all());
 
