@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const links = [
+import type { SimplifiedCustomPage } from '~/types/public';
+
+const base_links = [
     { name: "Domov", target: "index" },
     { name: "Speakers", target: "speakers" },
     { name: "Program", target: "schedule" },
@@ -7,6 +9,14 @@ const links = [
     { name: "Kontakt", target: "contact" },
     { name: "Registrácia", target: "test" },
 ];
+
+const config = useRuntimeConfig();
+const { data } = await useFetch<SimplifiedCustomPage[]>(`${config.public.apiUrl}/custom_pages`, {
+    lazy: true,
+    transform(data: SimplifiedCustomPage[]) {
+        return data.filter((entry) => entry.display === "navigation");
+    }
+});
 </script>
 
 <template>
@@ -21,11 +31,18 @@ const links = [
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item" v-for="page in links">
+                    <li class="nav-item" v-for="page in base_links">
                         <NuxtLink class="nav-link link-button"
                             :class="['nav-link', $route.name === page.target ? 'active' : '', $route.name === page.target ? 'link-button-active' : '']"
                             :to="{ name: page.target }">{{ page.name }}</NuxtLink>
                     </li>
+                    <template v-if="data !== null">
+                        <li class="nav-item" v-for="page in data">
+                            <NuxtLink class="nav-link link-button"
+                                :class="['nav-link', $route.path === `/custom_page/${page.id}` ? 'active' : '', $route.path === `/custom_page/${page.id}` ? 'link-button-active' : '']"
+                                :to="`/custom_page/${page.id}`">{{ page.name }}</NuxtLink>
+                        </li>
+                    </template>
                 </ul>
             </div>
         </div>
