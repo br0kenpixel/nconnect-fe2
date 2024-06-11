@@ -42,7 +42,7 @@ class StageController extends Controller
 
         Stage::find($id)->updateOrFail($request->all());
 
-        return response(status: 201);
+        return response(status: 204);
     }
 
     private function validate_request(Request $request): bool
