@@ -39,3 +39,11 @@ export type Stats = {
     next_conference: number;
     last_registration: number;
 };
+
+export type CustomPageVisibility = "none" | "navigation" | "bottom";
+
+export type SimplifiedCustomPage = {
+    id: number;
+    name: string;
+    display: CustomPageVisibility;
+};

@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { SimplifiedCustomPage } from '~/types/public';
+
 definePageMeta({
     layout: 'admin'
 });
 
-const custom_pages = [
-    { name: "GDPR" }
-];
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<SimplifiedCustomPage[]>(`${config.public.apiUrl}/custom_pages`, { lazy: true });
 </script>
 
 <template>
@@ -26,11 +27,22 @@ const custom_pages = [
             </div>
         </div>
 
-        <v-table>
+        <p v-if="pending">
+            Načítavam...
+        </p>
+
+        <div class="alert alert-danger" role="alert" v-else-if="error">
+            Nepodarilo sa načítať obsah.
+        </div>
+
+        <v-table v-else>
             <thead>
                 <tr>
                     <th class="text-left">
                         Názov
+                    </th>
+                    <th class="text-left">
+                        Zobrazené
                     </th>
                     <th class="text-right">
                         Op.
@@ -38,8 +50,10 @@ const custom_pages = [
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="page in custom_pages">
+                <tr v-for="page in data">
                     <td>{{ page.name }}</td>
+                    <td>{{ page.display === "none" ? "-" : (page.display === "navigation" ? "Nav. panel" : "Dolná nav.")
+                        }}</td>
                     <td class="text-right">
                         <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
                             base-color="red">Zmazať</v-btn>
