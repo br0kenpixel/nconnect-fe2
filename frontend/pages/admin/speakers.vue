@@ -6,7 +6,7 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`);
+const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, { lazy: true });
 </script>
 
 <template>
