@@ -58,7 +58,9 @@ Route::prefix("/schedule")->group(function () {
     Route::get("/", [ScheduleController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [ScheduleController::class, 'create']);
+        Route::post("/{id}", [ScheduleController::class, 'update']);
+        Route::delete("/{id}", [ScheduleController::class, 'delete']);
     });
 });
 
