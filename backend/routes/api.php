@@ -18,7 +18,9 @@ Route::prefix("/speakers")->group(function () {
     Route::get("/", [SpeakerController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [SpeakerController::class, 'create']);
+        Route::post("/{id}", [SpeakerController::class, 'update']);
+        Route::delete("/{id}", [SpeakerController::class, 'delete']);
     });
 });
 

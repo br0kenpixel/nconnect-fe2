@@ -52,8 +52,12 @@
 </template>
 
 <script lang="ts">
+import { encode } from 'base64-arraybuffer';
+import type { Speaker } from '~/types/public';
+
 export default {
     expose: ['show'],
+    emits: ["finished"],
 
     data() {
         return this.initialData();
@@ -64,6 +68,7 @@ export default {
             return {
                 dialog: false,
                 error: false,
+                editing_id: null as (number | null),
                 name: "",
                 employer: "",
                 headliner: false,
@@ -75,24 +80,71 @@ export default {
             Object.assign(this.$data, this.$options.data.apply(this));
         },
         canFinish() {
+            if (this.image === null && this.editing_id === null) {
+                return false;
+            }
+
+            if (this.image !== null && !this.image?.type.startsWith("image/")) {
+                return false;
+            }
+
             return this.name.length > 0 &&
                 this.employer.length > 0 &&
-                this.image !== null &&
-                this.image?.type.startsWith("image/");
+                this.description.length > 0;
         },
-        show() {
+        show(prefill?: Speaker) {
             this.dialog = true;
+
+            if (prefill !== undefined) {
+                this.editing_id = prefill.id;
+                this.name = prefill.name;
+                this.employer = prefill.company;
+                this.headliner = prefill.headliner;
+                this.description = prefill.description;
+            }
         },
         close() {
             this.dialog = false;
             this.resetData();
         },
-        finish() {
+        async finish() {
             if (!this.canFinish()) {
                 this.error = true;
                 return;
             }
 
+            let image_content: string | null = "data:image/";
+            if (this.image !== null) {
+                let buffer = await this.image.arrayBuffer();
+                let extension = this.image.name.substring(this.image.name.lastIndexOf(".") + 1);
+
+                switch (extension.toLowerCase()) {
+                    case "jpg":
+                    case "jpeg":
+                        image_content += "jpg";
+                        break;
+                    case "png":
+                        image_content += "png";
+                        break;
+                    default:
+                        this.error = true;
+                        return;
+                }
+
+                image_content += ";base64, ";
+                image_content += encode(buffer);
+            } else {
+                image_content = null;
+            }
+
+            this.$emit("finished", {
+                id: this.editing_id,
+                name: this.name,
+                image: image_content,
+                employer: this.employer,
+                description: this.description,
+                headliner: this.headliner
+            });
             this.close();
         }
     },

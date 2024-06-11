@@ -45,14 +45,20 @@ class SponsorController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "name" => "required|max:12",
-            "image" => "required|nullable"
+            "image" => "nullable"
         ], $request->all());
 
         if ($validated->fails()) {
             return response(status: 400);
         }
 
-        Sponsor::find($id)->updateOrFail($request->all());
+        $keys = $request->all();
+
+        if ($keys["image"] === null) {
+            unset($keys["image"]);
+        }
+
+        Sponsor::find($id)->updateOrFail($keys);
 
         return response(status: 204);
     }
