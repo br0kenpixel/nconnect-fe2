@@ -19,7 +19,6 @@ async function handleEditor(result: { id: null | number, name: string, image: st
     if (result.id === null) {
         await createNewSpeaker(result.name, result.image!, result.employer, result.description, result.headliner);
     } else {
-        console.log(result);
         await updateSpeaker(result.id, result.name, result.image, result.employer, result.description, result.headliner);
     }
 }
