@@ -7,7 +7,66 @@ definePageMeta({
 });
 
 const config = useRuntimeConfig();
+const dialog = ref(null as any);
+const client = useSanctumClient();
 const { data, pending, error, refresh } = await useFetch<Sponsor[]>(`${config.public.apiUrl}/sponsors`, { lazy: true });
+
+function newSponsorDialog() {
+    dialog.value!.show();
+}
+
+async function handleEditor(result: { id: null | number, name: string, image: string | null }) {
+    if (result.id === null) {
+        await createNewSponsor(result.name, result.image!);
+    } else {
+        await updateSponsor(result.id, result.name, result.image);
+    }
+}
+
+async function createNewSponsor(name: string, image: string) {
+    try {
+        await client(`/api/sponsors`, {
+            method: "PUT",
+            body: {
+                name: name,
+                image: image,
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function updateSponsor(id: number, name: string, image: string | null) {
+    try {
+        await client(`/api/sponsors/${id}`, {
+            method: "POST",
+            body: {
+                name: name,
+                image: image
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function deleteSponsor(id: number) {
+    try {
+        await client(`/api/sponsors/${id}`, {
+            method: "DELETE"
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function editSponsor(Sponsor: Sponsor) {
+    dialog.value!.show(Sponsor);
+}
 </script>
 
 <template>
@@ -39,16 +98,16 @@ const { data, pending, error, refresh } = await useFetch<Sponsor[]>(`${config.pu
                 <tr v-for="sponsor in data">
                     <td>{{ sponsor.name }}</td>
                     <td class="text-right">
-                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                            base-color="red">Zmazať</v-btn>
-                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                            base-color="orange">Editovať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline" base-color="red"
+                            @click="async () => deleteSponsor(sponsor.id)">Zmazať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil" base-color="orange"
+                            @click="() => editSponsor(sponsor)">Editovať</v-btn>
                     </td>
                 </tr>
             </tbody>
         </v-table>
 
-        <AdminSponsorEditorDialog ref="sponsor-editor" />
+        <AdminSponsorEditorDialog ref="dialog" @finished="handleEditor" />
     </div>
 </template>
 
@@ -58,13 +117,3 @@ const { data, pending, error, refresh } = await useFetch<Sponsor[]>(`${config.pu
     margin: 1px;
 }
 </style>
-
-<script lang="ts">
-export default {
-    methods: {
-        newSponsorDialog() {
-            (this.$refs['sponsor-editor'] as any).show();
-        }
-    }
-}
-</script>

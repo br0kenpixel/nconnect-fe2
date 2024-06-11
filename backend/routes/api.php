@@ -26,7 +26,9 @@ Route::prefix("/sponsors")->group(function () {
     Route::get("/", [SponsorController::class, 'all']);
 
     Route::middleware("auth:sanctum")->group(function () {
-        // TODO: ...
+        Route::put("/", [SponsorController::class, 'create']);
+        Route::post("/{id}", [SponsorController::class, 'update']);
+        Route::delete("/{id}", [SponsorController::class, 'delete']);
     });
 });
 

@@ -34,6 +34,9 @@
 </template>
 
 <script lang="ts">
+import { encode } from 'base64-arraybuffer';
+import type { Sponsor } from '~/types/public';
+
 export default {
     expose: ['show'],
 
@@ -41,6 +44,7 @@ export default {
         return {
             dialog: false,
             error: false,
+            editing_id: null as (number | null),
             name: "",
             image: null as (File | null),
         }
@@ -52,19 +56,60 @@ export default {
             this.name = "";
             this.image = null;
         },
-        show() {
+        show(prefill?: Sponsor) {
             this.dialog = true;
+
+            if (prefill != undefined) {
+                this.editing_id = prefill.id;
+                this.name = prefill.name;
+            }
         },
         close() {
             this.dialog = false;
             this.resetData();
         },
-        finish() {
-            if (this.name.length == 0 || this.image === null || !this.image?.type.startsWith("image/")) {
+        canFinish() {
+            if (this.image === null && this.editing_id === null) {
+                return false;
+            }
+
+            if (this.image !== null && !this.image?.type.startsWith("image/")) {
+                return false;
+            }
+
+            return this.name.length > 0;
+        },
+        async finish() {
+            if (!this.canFinish()) {
                 this.error = true;
                 return;
             }
 
+            let image_content: string | null = "data:image/";
+            if (this.image !== null) {
+                let buffer = await this.image.arrayBuffer();
+                let extension = this.image.name.substring(this.image.name.lastIndexOf(".") + 1);
+
+                switch (extension.toLowerCase()) {
+                    case "jpg":
+                    case "jpeg":
+                        image_content += "jpg";
+                        break;
+                    case "png":
+                        image_content += "png";
+                        break;
+                    default:
+                        this.error = true;
+                        return;
+                }
+
+                image_content += ";base64, ";
+                image_content += encode(buffer);
+            } else {
+                image_content = null;
+            }
+
+            this.$emit("finished", { id: this.editing_id, name: this.name, image: image_content });
             this.close();
         }
     },
