@@ -50,3 +50,11 @@ export type SimplifiedCustomPage = {
     name: string;
     display: CustomPageVisibility;
 };
+
+export type Review = {
+    id: number;
+    name: string;
+    opinion: string;
+    position: string;
+    image: string;
+};

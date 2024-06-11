@@ -10,6 +10,7 @@ const links = [
     { display: "Manažment partnerov", to: "admin-sponsors" },
     { display: "Vlastné stránky", to: "admin-custom_pages" },
     { display: "Galéria", to: "admin-gallery" },
+    { display: "Recenzie", to: "admin-reviews" },
 ];
 </script>
 

@@ -1,30 +1,8 @@
 <script setup lang="ts">
-const reviews = [
-    {
-        name: "John Doe",
-        text: "Very good!",
-        image: "/",
-        position: "IBM"
-    },
-    {
-        name: "Jenna Doe",
-        text: "Great company!",
-        image: "/",
-        position: "Microsoft - kernel dev"
-    },
-    {
-        name: "Joe Dawn",
-        text: "Great people and awesome personel. Very nice!",
-        image: "/",
-        position: "Google"
-    },
-    {
-        name: "Stanley Fee",
-        text: "Example...",
-        image: "/",
-        position: "EA"
-    }
-];
+import type { Review } from '~/types/public';
+
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Review[]>(`${config.public.apiUrl}/reviews`, { lazy: true });
 </script>
 
 <template>
@@ -34,8 +12,16 @@ const reviews = [
 
             <hr>
 
-            <div>
-                <Review v-for="review in reviews" :name="review.name" :text="review.text" :position="review.position"
+            <div class="mx-auto text-center" v-if="pending">
+                <p id="loading-text">Načítavam...</p>
+            </div>
+
+            <div class="alert alert-danger" role="alert" v-else-if="error">
+                Nepodarilo sa načítať obsah.
+            </div>
+
+            <div v-else>
+                <Review v-for="review in data" :name="review.name" :text="review.opinion" :position="review.position"
                     :image="review.image" class="mx-auto" />
             </div>
         </div>
@@ -47,6 +33,10 @@ const reviews = [
     padding-top: 50px;
     padding-bottom: 50px;
     width: 85%;
+}
+
+#loading-text {
+    color: white;
 }
 
 #reviews-area-root {

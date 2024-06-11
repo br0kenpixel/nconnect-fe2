@@ -4,7 +4,7 @@
     <div class="card mb-3 card-custom" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
-                <NuxtImg :src="image" class="img-fluid rounded-start" :alt="name" />
+                <img :src="image" class="img-fluid rounded-start" :alt="name" />
             </div>
             <div class="col-md-8">
                 <div class="card-body">
