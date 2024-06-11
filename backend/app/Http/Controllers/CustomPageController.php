@@ -59,7 +59,7 @@ class CustomPageController extends Controller
     private function validate_request(Request $request): bool
     {
         $validated = Validator::make($request->all(), [
-            "name" => "required|max:12",
+            "name" => "required|max:16",
             "content" => "required",
             "display" => "required"
         ], $request->all());

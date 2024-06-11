@@ -1,31 +1,63 @@
 <script setup lang="ts">
-import type { SimplifiedCustomPage } from '~/types/public';
+import type { CustomPageVisibility, SimplifiedCustomPage } from '~/types/public';
 
 definePageMeta({
-    layout: 'admin'
+    layout: 'admin',
+    middleware: ['sanctum:auth']
 });
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<SimplifiedCustomPage[]>(`${config.public.apiUrl}/custom_pages`, { lazy: true });
+const client = useSanctumClient();
+const router = useRouter();
+const { data, pending, error, refresh } = await useFetch<SimplifiedCustomPage[]>(`${config.public.apiUrl}/custom_pages`, { lazy: true });
+
+async function newPage() {
+    try {
+        await client(`/api/custom_pages`, {
+            method: "PUT",
+            body: {
+                name: `Stránka ${createRandomString(4)}`,
+                content: "Doplňte obsah... :)",
+                display: "none" as CustomPageVisibility
+            }
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function deletePage(id: number) {
+    try {
+        await client(`/api/custom_pages/${id}`, {
+            method: "DELETE"
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function startEditor(page_id: number) {
+    router.push(`/admin/custom_pages/${page_id}`);
+}
+
+function createRandomString(length: number): string {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
 </script>
 
 <template>
     <div class="container">
         <h1>Moje stránky</h1>
 
-        <div>
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-plus" base-color="green">
-                    Pridať
-                </v-btn>
-            </div>
-
-            <div class="top-action-btn-container">
-                <v-btn prepend-icon="mdi-eraser" base-color="red">
-                    Zmazať všetky
-                </v-btn>
-            </div>
-        </div>
+        <AdminBasicOps :adder="newPage" :eraser="() => { }" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...
@@ -55,10 +87,10 @@ const { data, pending, error } = await useFetch<SimplifiedCustomPage[]>(`${confi
                     <td>{{ page.display === "none" ? "-" : (page.display === "navigation" ? "Nav. panel" : "Dolná nav.")
                         }}</td>
                     <td class="text-right">
-                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                            base-color="red">Zmazať</v-btn>
-                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
-                            base-color="orange">Editovať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline" base-color="red"
+                            @click="async () => deletePage(page.id)">Zmazať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-pencil" base-color="orange"
+                            @click="startEditor(page.id)">Editovať</v-btn>
                     </td>
                 </tr>
             </tbody>
