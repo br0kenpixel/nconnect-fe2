@@ -11,6 +11,7 @@ const links = [
     { display: "Vlastné stránky", to: "admin-custom_pages" },
     { display: "Galéria", to: "admin-gallery" },
     { display: "Recenzie", to: "admin-reviews" },
+    { display: "Kontakty", to: "admin-contacts" },
 ];
 </script>
 

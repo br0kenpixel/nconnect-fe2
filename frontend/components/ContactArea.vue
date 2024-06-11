@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-const contacts = [
-    { name: "John Doe", image: "/", phone: "+421 908 123 456", email: "doe@doemail.com" },
-    { name: "Jeffery Nick", image: "/", phone: "+421 906 987 654", email: "nick@gmail.com" },
-];
+import type { Contact } from '~/types/public';
+
+const config = useRuntimeConfig();
+const { data, pending, error } = await useFetch<Contact[]>(`${config.public.apiUrl}/contacts`, { lazy: true });
 </script>
 
 <template>
@@ -12,13 +12,39 @@ const contacts = [
 
             <hr>
 
-            <div class="container text-center">
+            <div class="container text-center" v-if="pending">
                 <div class="row">
-                    <div class="col-sm" v-for="contact in contacts">
+                    <div class="col-sm" v-for="_ in 2">
+                        <div class="card mb-3" style="max-width: 540px;">
+                            <div class="row g-0">
+                                <div class="col-md-8 placeholder-glow">
+                                    <div class="card-body">
+                                        <h5 class="card-title black-text"><span class="placeholder col-6"></span></h5>
+                                        <p class="card-text gray-text non-uppercase">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+                                        <p class="card-text gray-text non-uppercase">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-danger" role="alert" v-else-if="error">
+                Nepodarilo sa načítať obsah.
+            </div>
+
+            <div class="container text-center" v-else>
+                <div class="row">
+                    <div class="col-sm" v-for="contact in data">
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <NuxtImg :src="contact.image" class="img-fluid rounded-start" :alt="contact.name" />
+                                    <img :src="contact.image" class="img-fluid rounded-start" :alt="contact.name" />
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">

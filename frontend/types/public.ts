@@ -58,3 +58,11 @@ export type Review = {
     position: string;
     image: string;
 };
+
+export type Contact = {
+    id: number;
+    name: string;
+    phone: string;
+    email: string;
+    image: string;
+};
