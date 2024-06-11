@@ -21,7 +21,7 @@ class SponsorFactory extends Factory
         $image = "data:image/jpeg;base64, " . base64_encode($raw_image);
 
         return [
-            "name" => fake()->company(),
+            "name" => fake()->text(12),
             "image" => $image
         ];
     }
