@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomPage;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CustomPageController extends Controller
 {
@@ -13,5 +12,16 @@ class CustomPageController extends Controller
         $pages = CustomPage::all(["id", "name", "display"]);
 
         return response()->json($pages);
+    }
+
+    public function get(int $id): JsonResponse
+    {
+        $page = CustomPage::find($id, ["id", "name", "content", "display"]);
+
+        if ($page === null) {
+            abort(404);
+        }
+
+        return response()->json($page);
     }
 }

@@ -56,6 +56,7 @@ Route::prefix("/schedule")->group(function () {
 
 Route::prefix("/custom_pages")->group(function () {
     Route::get("/", [CustomPageController::class, 'all']);
+    Route::get("/{id}", [CustomPageController::class, 'get']);
 
     Route::middleware("auth:sanctum")->group(function () {
         // TODO: ...
