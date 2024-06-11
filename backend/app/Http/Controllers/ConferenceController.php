@@ -33,4 +33,10 @@ class ConferenceController extends Controller
 
         return response(status: 201);
     }
+
+    public function delete(int $id): Response
+    {
+        Conference::find($id)->deleteOrFail();
+        return response(status: 201);
+    }
 }

@@ -35,6 +35,17 @@ async function createNewConference(date: Date) {
         console.error(e);
     }
 }
+
+async function deleteConference(id: number) {
+    try {
+        await client(`/api/conferences/${id}`, {
+            method: "DELETE"
+        });
+        await refresh();
+    } catch (e) {
+        console.error(e);
+    }
+}
 </script>
 
 <template>
@@ -70,8 +81,8 @@ async function createNewConference(date: Date) {
                     <td>{{ conference.year }}</td>
                     <td>{{ conference.date }}</td>
                     <td class="text-right">
-                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline"
-                            base-color="red">Zmazať</v-btn>
+                        <v-btn class="m-1" density="compact" append-icon="mdi-trash-can-outline" base-color="red"
+                            @click="async () => deleteConference(conference.id)">Zmazať</v-btn>
                         <v-btn class="m-1" density="compact" append-icon="mdi-pencil"
                             base-color="orange">Editovať</v-btn>
                     </td>
