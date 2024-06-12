@@ -22,7 +22,7 @@ class ScheduleController extends Controller
             foreach ($stages as $stage) {
                 $schedule = Schedule::where("stage", "=", $stage->id)
                     ->with("speaker:id,name,company,image,headliner")
-                    ->get(["id", "title", "description", "start", "end", "speaker"])
+                    ->get(["id", "title", "description", "start", "end", "speaker", "seats"])
                     ->all();
                 $stage["schedule"] = $schedule;
             }
@@ -74,7 +74,8 @@ class ScheduleController extends Controller
             "start" => "required|date_format:H:i",
             "end" => "required|date_format:H:i|after:start",
             "speaker" => "nullable|integer",
-            "stage" => "required|integer"
+            "stage" => "required|integer",
+            "seats" => "required|integer|gt:0"
         ], $request->all());
 
         return $validated->passes();

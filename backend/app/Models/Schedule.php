@@ -12,7 +12,7 @@ class Schedule extends Model
     use HasFactory;
 
     protected $table = "schedules";
-    protected $fillable = ["title", "description", "start", "end", "speaker", "stage"];
+    protected $fillable = ["title", "description", "start", "end", "speaker", "stage", "seats"];
 
     public function stage(): BelongsTo
     {

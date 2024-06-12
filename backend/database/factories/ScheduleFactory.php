@@ -26,7 +26,8 @@ class ScheduleFactory extends Factory
             "start" => fake()->time("H:i"),
             "end" => fake()->time("H:i", "+1 hour"),
             "speaker" => $maybe_speaker,
-            "stage" => Stage::all()->random()->id
+            "stage" => Stage::all()->random()->id,
+            "seats" => fake()->numberBetween(10, 20)
         ];
     }
 }

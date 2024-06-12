@@ -15,6 +15,7 @@ type EditorData = {
     end: string;
     stage: Stage;
     speaker: Speaker | null;
+    seats: number;
 };
 
 const config = useRuntimeConfig();
@@ -28,9 +29,9 @@ function newScheduleDialog() {
 
 async function handleEditor(result: EditorData) {
     if (result.id === null) {
-        await createNewSchedule(result.title, result.description, result.start, result.end, result.stage, result.speaker);
+        await createNewSchedule(result.title, result.description, result.start, result.end, result.stage, result.speaker, result.seats);
     } else {
-        await updateSchedule(result.id, result.title, result.description, result.start, result.end, result.stage, result.speaker);
+        await updateSchedule(result.id, result.title, result.description, result.start, result.end, result.stage, result.speaker, result.seats);
     }
 }
 
@@ -40,7 +41,8 @@ async function createNewSchedule(
     start: string,
     end: string,
     stage: Stage,
-    speaker: Speaker | null
+    speaker: Speaker | null,
+    seats: number
 ) {
     try {
         await client(`/api/schedule`, {
@@ -51,7 +53,8 @@ async function createNewSchedule(
                 start: start,
                 end: end,
                 stage: stage.id,
-                speaker: speaker !== null ? speaker.id : null
+                speaker: speaker !== null ? speaker.id : null,
+                seats: seats
             }
         });
         await refresh();
@@ -67,7 +70,8 @@ async function updateSchedule(
     start: string,
     end: string,
     stage: Stage,
-    speaker: Speaker | null
+    speaker: Speaker | null,
+    seats: number
 ) {
     try {
         await client(`/api/schedule/${id}`, {
@@ -78,7 +82,8 @@ async function updateSchedule(
                 start: start,
                 end: end,
                 stage: stage.id,
-                speaker: speaker !== null ? speaker.id : null
+                speaker: speaker !== null ? speaker.id : null,
+                seats: seats
             }
         });
         await refresh();

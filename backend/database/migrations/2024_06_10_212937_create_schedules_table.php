@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->time("end");
             $table->unsignedBigInteger("speaker")->nullable();
             $table->unsignedBigInteger("stage");
+            $table->unsignedInteger("seats");
             $table->timestamps();
         });
     }

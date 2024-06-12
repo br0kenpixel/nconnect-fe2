@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { VNumberInput } from 'vuetify/labs/VNumberInput'
+
 const config = useRuntimeConfig();
 const { data: stage_data, pending: stage_pending } = await useFetch<Stage[]>(`${config.public.apiUrl}/stages`, { lazy: true });
 const { data: speaker_data, pending: speaker_pending } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, { lazy: true });
@@ -30,6 +32,13 @@ const { data: speaker_data, pending: speaker_pending } = await useFetch<Speaker[
                     </v-col>
                     <v-col>
                         <AdminTimePicker title="Čas do" v-model="to" />
+                    </v-col>
+                </v-row>
+
+                <v-row dense>
+                    <v-col>
+                        <v-number-input :reverse="false" controlVariant="split" label="Počet miest" :hideInput="false"
+                            :inset="false" :min="1" v-model="seats"></v-number-input>
                     </v-col>
                 </v-row>
 
@@ -89,6 +98,7 @@ export default {
                 to: "",
                 stage: null as (Stage | null),
                 speaker: null as (Speaker | null),
+                seats: 0,
                 menu2: false,
             };
         },
@@ -100,7 +110,8 @@ export default {
                 this.description.length > 0 &&
                 this.from.length === 5 &&
                 this.to.length === 5 &&
-                this.stage !== null;
+                this.stage !== null &&
+                this.seats > 0;
         },
         show(prefill_sched?: Schedule, prefill_stage?: Stage) {
             this.dialog = true;
@@ -113,6 +124,7 @@ export default {
                 this.to = prefill_sched.end;
                 this.stage = prefill_stage;
                 this.speaker = prefill_sched.speaker;
+                this.seats = prefill_sched.seats;
             }
         },
         close() {
@@ -133,6 +145,7 @@ export default {
                 end: this.to,
                 stage: this.stage,
                 speaker: this.speaker,
+                seats: this.seats
             });
             this.close();
         }
