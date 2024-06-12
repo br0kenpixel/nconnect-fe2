@@ -66,7 +66,7 @@
                 </v-col>
             </v-row>
 
-            <editor-content :editor="editor" id="editor" />
+            <editor-content :editor="(editor as any)" id="editor" />
         </div>
     </div>
 </template>
@@ -101,7 +101,7 @@ export default {
     emits: ['update:modelValue'],
     data() {
         return {
-            editor: null,
+            editor: null as (Editor | null),
         }
     },
     mounted() {
@@ -111,21 +111,21 @@ export default {
                 StarterKit,
             ],
             onUpdate: () => {
-                this.$emit('update:modelValue', this.editor.getHTML())
+                this.$emit('update:modelValue', this.editor!.getHTML())
             },
-        });
+        }) as any;
     },
     watch: {
         modelValue(value) {
-            const isSame = this.editor.getHTML() === value;
+            const isSame = this.editor!.getHTML() === value;
             if (isSame) {
                 return;
             }
-            this.editor.commands.setContent(value, false);
+            this.editor!.commands.setContent(value, false);
         },
     },
     beforeUnmount() {
-        this.editor.destroy();
+        this.editor!.destroy();
     }
 }
 </script>
