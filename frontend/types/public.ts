@@ -76,5 +76,5 @@ export type GalleryImage = {
 
 export type Gallery = {
     conference: Conference;
-    gallery: GalleryImage;
+    gallery: GalleryImage[];
 };

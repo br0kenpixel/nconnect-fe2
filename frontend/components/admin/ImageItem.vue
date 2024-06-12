@@ -2,10 +2,10 @@
     <v-container>
         <v-row>
             <v-col>
-                <img :src="img" alt="Obrázok" />
+                <img :src="img" alt="Obrázok" width="200" />
             </v-col>
             <v-col>
-                <v-btn prepend-icon="mdi-trash-can" base-color="red">Zmazať</v-btn>
+                <v-btn prepend-icon="mdi-trash-can" base-color="red" @click="deleter">Zmazať</v-btn>
             </v-col>
         </v-row>
         <v-row>
@@ -20,6 +20,11 @@ export default {
         img: {
             type: String,
             required: true
+        },
+        deleter: {
+            type: Function,
+            required: true,
+            default: () => { }
         }
     }
 }

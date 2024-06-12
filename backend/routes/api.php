@@ -101,11 +101,11 @@ Route::prefix("/contacts")->group(function () {
 Route::prefix("/gallery")->group(function () {
     Route::get("/", [GalleryImageController::class, 'all']);
 
-    /*Route::middleware("auth:sanctum")->group(function () {
-        Route::put("/", [GalleryController::class, 'create']);
-        Route::post("/{id}", [GalleryController::class, 'update']);
-        Route::delete("/{id}", [GalleryController::class, 'delete']);
-    });*/
+    Route::middleware("auth:sanctum")->group(function () {
+        Route::put("/", [GalleryImageController::class, 'create']);
+        Route::post("/", [GalleryImageController::class, 'update']);
+        Route::delete("/{id}", [GalleryImageController::class, 'delete']);
+    });
 });
 
 Route::get("/stats", [StatsController::class, 'basic']);
