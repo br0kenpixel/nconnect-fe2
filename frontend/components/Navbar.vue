@@ -7,6 +7,7 @@ const base_links = [
     { name: "Program", target: "schedule" },
     { name: "Partneri", target: "sponsors" },
     { name: "Kontakt", target: "contact" },
+    { name: "Galéria", target: "gallery" },
     { name: "Registrácia", target: "test" },
 ];
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
+use App\Http\Controllers\GalleryImageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
@@ -79,7 +80,6 @@ Route::prefix("/custom_pages")->group(function () {
 
 Route::prefix("/reviews")->group(function () {
     Route::get("/", [ReviewController::class, 'all']);
-    Route::get("/{id}", [ReviewController::class, 'get']);
 
     Route::middleware("auth:sanctum")->group(function () {
         Route::put("/", [ReviewController::class, 'create']);
@@ -90,13 +90,22 @@ Route::prefix("/reviews")->group(function () {
 
 Route::prefix("/contacts")->group(function () {
     Route::get("/", [ContactController::class, 'all']);
-    Route::get("/{id}", [ContactController::class, 'get']);
 
     Route::middleware("auth:sanctum")->group(function () {
         Route::put("/", [ContactController::class, 'create']);
         Route::post("/{id}", [ContactController::class, 'update']);
         Route::delete("/{id}", [ContactController::class, 'delete']);
     });
+});
+
+Route::prefix("/gallery")->group(function () {
+    Route::get("/", [GalleryImageController::class, 'all']);
+
+    /*Route::middleware("auth:sanctum")->group(function () {
+        Route::put("/", [GalleryController::class, 'create']);
+        Route::post("/{id}", [GalleryController::class, 'update']);
+        Route::delete("/{id}", [GalleryController::class, 'delete']);
+    });*/
 });
 
 Route::get("/stats", [StatsController::class, 'basic']);

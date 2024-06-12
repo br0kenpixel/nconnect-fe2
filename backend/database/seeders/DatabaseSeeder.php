@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomPageSeeder::class);
         $this->call(ReviewSeeder::class);
         $this->call(ContactSeeder::class);
+        $this->call(GalleryImageSeeder::class);
     }
 }

@@ -1,3 +1,5 @@
+import type { Conference } from "./private";
+
 export type Speaker = {
     id: number;
     name: string;
@@ -65,4 +67,14 @@ export type Contact = {
     phone: string;
     email: string;
     image: string;
+};
+
+export type GalleryImage = {
+    id: number;
+    image: string;
+};
+
+export type Gallery = {
+    conference: Conference;
+    gallery: GalleryImage;
 };

@@ -7,7 +7,7 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
 </script>
 
 <template>
-    <div id="scedule-area-root">
+    <div id="schedule-area-root">
         <div class="container" id="schedule-area">
             <h5>🗓 Schedule</h5>
 
@@ -84,7 +84,7 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
     width: 85%;
 }
 
-#scedule-area-root {
+#schedule-area-root {
     background: #f0f3f5;
 }
 
