@@ -60,8 +60,6 @@ export default {
             } finally {
                 this.processing = false;
             }
-
-            console.log(data);
         }
     }
 }

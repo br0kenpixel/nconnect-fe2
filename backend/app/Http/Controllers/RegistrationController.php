@@ -95,14 +95,7 @@ class RegistrationController extends Controller
             "name" => $request->name
         ]);
 
-        foreach ($request->selection as $schedule) {
-            $entry_schedule = Schedule::find($schedule);
-
-            Registration::create([
-                "attendee" => $attendee->id,
-                "schedule" => $schedule,
-            ]);
-        }
+        $this->write_registration($request, $attendee);
 
         return response(status: 201);
     }
@@ -123,5 +116,39 @@ class RegistrationController extends Controller
         ];
 
         return response()->json($result);
+    }
+
+    public function update(int $id, Request $request): Response
+    {
+        $attendee = Attendee::find($id);
+        if ($attendee === null) {
+            return response(status: 400)->json(["error" => "Invalid attendee"]);
+        }
+
+        $validated = Validator::make($request->all(), [
+            "email" => "required|email|max:96",
+            "name" => "required|max:64",
+            "selection" => "required|array"
+        ], $request->all());
+
+        if ($validated->fails()) {
+            return response("Invalid body structure", 400);
+        }
+
+        Registration::whereColumn("attendee", "=", $id)->delete();
+
+        $this->write_registration($request, $attendee);
+
+        return response(status: 201);
+    }
+
+    private function write_registration(Request $request, Attendee $attendee)
+    {
+        foreach ($request->selection as $schedule) {
+            Registration::create([
+                "attendee" => $attendee->id,
+                "schedule" => $schedule,
+            ]);
+        }
     }
 }

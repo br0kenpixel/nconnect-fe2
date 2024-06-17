@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import type { PropType } from 'vue';
+import type { Prop, PropType } from 'vue';
 import type { FullSchedule, RegistrationForm, RegistrationSelection, Schedule, SimplifiedStage } from '~/types/public';
 </script>
 
 <template>
     <div>
-        <v-text-field label="E-mail" variant="underlined" type="email" v-model="email" required></v-text-field>
-        <v-text-field label="Meno" variant="underlined" type="text" v-model="name" required></v-text-field>
+        <v-text-field label="E-mail" variant="underlined" type="email" v-model="email" required
+            :disabled="disable_info_change"></v-text-field>
+        <v-text-field label="Meno" variant="underlined" type="text" v-model="name" required
+            :disabled="disable_info_change"></v-text-field>
 
         <v-table height="300px" fixed-header>
             <thead>
@@ -26,7 +28,10 @@ import type { FullSchedule, RegistrationForm, RegistrationSelection, Schedule, S
                 <tr v-for="entry in selection">
                     <td>{{ entry.presentation.start }} - {{ entry.presentation.end }}</td>
                     <td>{{ entry.presentation.title }}</td>
-                    <td></td>
+                    <td class="text-right">
+                        <v-btn density="comfortable" color="red" icon="mdi-trash-can"
+                            @click="() => remove(entry)"></v-btn>
+                    </td>
                 </tr>
             </tbody>
         </v-table>
@@ -52,27 +57,39 @@ export default {
             type: Object as PropType<FullSchedule>,
             required: true
         },
-        fill_email: {
-            type: String,
+        prefill: {
+            type: Object as PropType<RegistrationForm | null>,
             required: false,
-            default: ""
-        },
-        fill_name: {
-            type: String,
-            required: false,
-            default: ""
+            default: null,
         }
     },
     emits: ["finished"],
     data() {
+        let selection: RegistrationSelection[] = [];
+
+        if (this.prefill !== null) {
+            this.prefill.selection.forEach(entry => {
+                let stage = this.schedule.stages.find(stage => stage.schedule.find(presentation => presentation.id === entry))!;
+                let presentation = stage.schedule.find(presentation => presentation.id === entry)!;
+
+                let selection_combo = {
+                    stage: stage,
+                    presentation: presentation
+                };
+
+                selection.push(selection_combo);
+            });
+        }
+
         return {
             availableSchedule: this.schedule,
             stage: null as (SimplifiedStage | null),
             selectedSchedule: null as (Schedule | null),
-            email: this.fill_email,
-            name: this.fill_name,
+            email: this.prefill?.email,
+            name: this.prefill?.name,
+            disable_info_change: this.prefill !== null,
             schedules: [] as Schedule[],
-            selection: [] as (RegistrationSelection[]),
+            selection: selection,
         };
     },
     watch: {
@@ -103,6 +120,15 @@ export default {
             this.selectedSchedule = null;
             this.updateSelection();
         },
+        remove(selection: RegistrationSelection) {
+            console.log(selection);
+            let index = this.selection.findIndex(e => e === selection)!;
+            console.log(index);
+
+            this.selection.splice(index, 1);
+            this.updateSelection();
+            console.log(this.selection);
+        },
         updateSelection() {
             let result: FullSchedule = structuredClone(toRaw(this.schedule));
 
@@ -126,6 +152,9 @@ export default {
                 selection: this.selection.map(entry => entry.presentation.id),
             } as RegistrationForm);
         }
+    },
+    mounted() {
+        this.updateSelection();
     }
 }
 </script>

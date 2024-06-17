@@ -3,6 +3,7 @@ import type { FullSchedule, RegistrationForm } from '~/types/public';
 
 const config = useRuntimeConfig();
 const route = useRoute();
+const { data: schedule_data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
 const { data: registration_data, pending: _, error: registration_error } = await useFetch<RegistrationForm>(`${config.public.apiUrl}/registrations/${route.params.id}`);
 </script>
 
@@ -27,9 +28,8 @@ const { data: registration_data, pending: _, error: registration_error } = await
                     {{ error }}
                 </div>
 
-                <p>{{ data }}</p>
-
-                <RegistrationEditor v-show="!processing" :schedule="data!" @finished="handleForm" />-->
+                <RegistrationEditor v-show="!processing" :schedule="schedule_data!" :prefill="registration_data!"
+                    @finished="handleForm" />
             </v-card>
         </v-sheet>
     </v-app>
@@ -56,8 +56,8 @@ export default {
             }
 
             try {
-                await this.client("/api/registrations/create", {
-                    method: "PUT",
+                await this.client(`/api/registrations/${this.$route.params.id}`, {
+                    method: "POST",
                     body: { ...data }
                 });
 
@@ -67,8 +67,6 @@ export default {
             } finally {
                 this.processing = false;
             }
-
-            console.log(data);
         }
     }
 }
