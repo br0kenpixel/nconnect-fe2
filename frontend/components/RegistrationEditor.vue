@@ -6,6 +6,7 @@ import type { FullSchedule, RegistrationForm, RegistrationSelection, Schedule, S
 <template>
     <div>
         <v-text-field label="E-mail" variant="underlined" type="email" v-model="email" required></v-text-field>
+        <v-text-field label="Meno" variant="underlined" type="text" v-model="name" required></v-text-field>
 
         <v-table height="300px" fixed-header>
             <thead>
@@ -56,6 +57,11 @@ export default {
             required: false,
             default: ""
         },
+        fill_name: {
+            type: String,
+            required: false,
+            default: ""
+        },
         id: {
             type: Object as PropType<number | null>,
             required: false,
@@ -69,6 +75,7 @@ export default {
             stage: null as (SimplifiedStage | null),
             selectedSchedule: null as (Schedule | null),
             email: this.fill_email,
+            name: this.fill_name,
             schedules: [] as Schedule[],
             selection: [] as (RegistrationSelection[]),
         };
@@ -121,7 +128,8 @@ export default {
             this.$emit("finished", {
                 id: this.id,
                 email: this.email,
-                selection: this.selection
+                name: this.name,
+                selection: this.selection.map(entry => entry.presentation.id),
             } as RegistrationForm);
         }
     }

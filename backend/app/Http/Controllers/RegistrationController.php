@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendee;
+use App\Models\Registration;
 use App\Models\Schedule;
 use App\Models\Speaker;
 use App\Models\Stage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 class RegistrationController extends Controller
 {
@@ -61,5 +64,48 @@ class RegistrationController extends Controller
 
         $result["stages"] = $stages;
         return response()->json($result);
+    }
+
+    public function create(Request $request): Response
+    {
+        $validated = Validator::make($request->all(), [
+            "email" => "required|email|max:96",
+            "name" => "required|max:64",
+            "selection" => "required|array"
+        ], $request->all());
+
+        if ($validated->fails()) {
+            return response("Invalid body structure", 400);
+        }
+
+        foreach ($request->selection as $schedule) {
+            $entry_schedule = Schedule::find($schedule);
+
+            if ($entry_schedule === null) {
+                return response("Invalid schedule", 400);
+            }
+
+            if ($entry_schedule->speaker === null) {
+                return response("Schedule (" . $schedule . ") is not a presentation", 400);
+            }
+
+
+        }
+
+        $attendee = Attendee::create([
+            "email" => $request->email,
+            "name" => $request->name
+        ]);
+
+        foreach ($request->selection as $schedule) {
+            $entry_schedule = Schedule::find($schedule);
+
+            Registration::create([
+                "attendee" => $attendee->id,
+                "schedule" => $schedule,
+            ]);
+        }
+
+        return response(status: 201);
     }
 }

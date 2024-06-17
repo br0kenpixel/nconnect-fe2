@@ -3,52 +3,6 @@ import type { FullSchedule, RegistrationForm } from '~/types/public';
 
 const config = useRuntimeConfig();
 const { data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
-
-/*const registration = {
-    id: 0,
-    year: 2024,
-    date: "12.04.2024",
-    stages: [
-        {
-            id: 1,
-            name: "DATA & AI",
-            schedule: [
-                {
-                    id: 1,
-                    title: "Python data collection",
-                    description: "Collecting data with python",
-                    start: "12:00",
-                    end: "13:00",
-                    speaker: {
-                        id: 0,
-                        name: "Adam",
-                        image: "/",
-                        company: "Microsoft",
-                        description: "...",
-                        headliner: false
-                    },
-                    seats: 12,
-                },
-                {
-                    id: 2,
-                    title: "Rust data collection",
-                    description: "Collecting data with rust",
-                    start: "13:00",
-                    end: "14:00",
-                    speaker: {
-                        id: 0,
-                        name: "Adam",
-                        image: "/",
-                        company: "Microsoft",
-                        description: "...",
-                        headliner: false
-                    },
-                    seats: 12,
-                },
-            ],
-        },
-    ]
-} as FullSchedule;*/
 </script>
 
 <template>
@@ -68,7 +22,7 @@ const { data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrat
                     {{ error }}
                 </div>
 
-                <RegistrationEditor v-if="!processing" :schedule="data!" @finished="handleForm" />
+                <RegistrationEditor v-show="!processing" :schedule="data!" @finished="handleForm" />
             </v-card>
         </v-sheet>
     </v-app>
@@ -80,14 +34,34 @@ export default {
         return {
             error: null as (string | null),
             processing: false,
+            client: useSanctumClient(),
         };
     },
     methods: {
-        handleForm(data: RegistrationForm) {
+        async handleForm(data: RegistrationForm) {
             this.error = null;
             this.processing = true;
 
-            this.processing = false;
+            if (data.email.length === 0 || data.name.length === 0 || data.selection.length === 0) {
+                this.error = "Prosím vyplnte všetky polia.";
+                this.processing = false;
+                return;
+            }
+
+            try {
+                await this.client("/api/registrations/create", {
+                    method: "PUT",
+                    body: { ...data }
+                });
+
+                this.$router.push({ name: "registration-done" });
+            } catch (e) {
+                this.error = e as any;
+            } finally {
+                this.processing = false;
+            }
+
+            console.log(data);
         }
     }
 }

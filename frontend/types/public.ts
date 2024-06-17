@@ -88,7 +88,8 @@ export type RegistrationSelection = {
 export type RegistrationForm = {
     id: number | null,
     email: string,
-    selection: RegistrationSelection[],
+    name: string,
+    selection: number[],
 };
 
 export type RegistrationStatus = {
