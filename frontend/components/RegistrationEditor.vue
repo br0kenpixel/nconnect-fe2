@@ -102,7 +102,7 @@ export default {
             this.updateSelection();
         },
         updateSelection() {
-            let result: FullSchedule = structuredClone(this.schedule);
+            let result: FullSchedule = structuredClone(toRaw(this.schedule));
 
             result.stages.forEach(stage => {
                 stage.schedule = stage.schedule.filter(sched => {
