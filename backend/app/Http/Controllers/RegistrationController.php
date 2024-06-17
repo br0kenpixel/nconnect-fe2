@@ -88,8 +88,6 @@ class RegistrationController extends Controller
             if ($entry_schedule->speaker === null) {
                 return response("Schedule (" . $schedule . ") is not a presentation", 400);
             }
-
-
         }
 
         $attendee = Attendee::create([
@@ -107,5 +105,23 @@ class RegistrationController extends Controller
         }
 
         return response(status: 201);
+    }
+
+    public function get(int $id): JsonResponse
+    {
+        $attendee = Attendee::find($id);
+        if ($attendee === null) {
+            return response(status: 400)->json(["error" => "Invalid attendee"]);
+        }
+
+        $registrations = Registration::whereColumn("attendee", "=", $id)->get(["schedule"])->all();
+
+        $result = [
+            "email" => $attendee->email,
+            "name" => $attendee->name,
+            "selection" => array_map(fn($value): int => $value->schedule, $registrations),
+        ];
+
+        return response()->json($result);
     }
 }

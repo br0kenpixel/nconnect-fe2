@@ -61,11 +61,6 @@ export default {
             type: String,
             required: false,
             default: ""
-        },
-        id: {
-            type: Object as PropType<number | null>,
-            required: false,
-            default: null
         }
     },
     emits: ["finished"],
@@ -126,7 +121,6 @@ export default {
         },
         send() {
             this.$emit("finished", {
-                id: this.id,
                 email: this.email,
                 name: this.name,
                 selection: this.selection.map(entry => entry.presentation.id),

@@ -86,7 +86,6 @@ export type RegistrationSelection = {
 };
 
 export type RegistrationForm = {
-    id: number | null,
     email: string,
     name: string,
     selection: number[],
