@@ -4,6 +4,7 @@ use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
 use App\Http\Controllers\GalleryImageController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SpeakerController;
@@ -106,6 +107,12 @@ Route::prefix("/gallery")->group(function () {
         Route::post("/", [GalleryImageController::class, 'update']);
         Route::delete("/{id}", [GalleryImageController::class, 'delete']);
     });
+});
+
+Route::prefix("/registrations")->group(function () {
+    Route::get("/available", [RegistrationController::class, 'available']);
+    Route::get("/schedule", [RegistrationController::class, 'get_schedule']);
+    Route::put("/create", [RegistrationController::class, 'create']);
 });
 
 Route::get("/stats", [StatsController::class, 'basic']);

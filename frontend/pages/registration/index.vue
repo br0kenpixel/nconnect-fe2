@@ -1,7 +1,8 @@
 <script setup lang="ts">
-const registration_status = {
-    closed: false,
-};
+import type { RegistrationStatus } from '~/types/public';
+
+const config = useRuntimeConfig();
+const { data } = await useFetch<RegistrationStatus>(`${config.public.apiUrl}/registrations/available`);
 </script>
 
 <template>
@@ -9,16 +10,18 @@ const registration_status = {
         <div id="root">
             <h1 class="text-center">Registrácia</h1>
 
-            <div class="alert alert-danger" role="alert" v-show="registration_status.closed">
+            <div class="alert alert-danger" role="alert" v-show="data!.closed">
                 ❌ Registrácie sú aktuálne uzavreté
             </div>
 
             <div class="text-center">
-                <button type="button" class="btn btn-primary custom-btn" :disabled="registration_status.closed"
+                <p>Registrujete sa na ročník {{ data!.conference!.year }}, ktorý sa bude konať {{ data!.conference!.date
+                    }}.</p>
+                <button type="button" class="btn btn-primary custom-btn" :disabled="data!.closed"
                     @click="$router.push({ name: 'registration-new' })">⭐️ Nová
                     registácia</button>
                 <br />
-                <button type="button" class="btn btn-secondary custom-btn" :disabled="registration_status.closed">📝
+                <button type="button" class="btn btn-secondary custom-btn" :disabled="data!.closed">📝
                     Zmeniť
                     moju registráciu</button>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use App\Models\Stage;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 
 class StatsController extends Controller
@@ -25,8 +26,21 @@ class StatsController extends Controller
         ]);
     }
 
-    public function next_conference(): Conference|null
+    public static function next_conference(): Conference|null
     {
-        return null;
+        $candidate = Conference::whereColumn("year", "=", date("Y"))->first(["id", "year", "date"]);
+
+        if ($candidate === null) {
+            return null;
+        }
+
+        $date = new DateTime($candidate->date);
+        $now = new DateTime();
+
+        if ($date < $now) {
+            return null;
+        }
+
+        return $candidate;
     }
 }

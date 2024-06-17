@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { FullSchedule, RegistrationForm } from '~/types/public';
 
-const registration = {
+const config = useRuntimeConfig();
+const { data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
+
+/*const registration = {
     id: 0,
     year: 2024,
     date: "12.04.2024",
@@ -45,7 +48,7 @@ const registration = {
             ],
         },
     ]
-} as FullSchedule;
+} as FullSchedule;*/
 </script>
 
 <template>
@@ -65,7 +68,7 @@ const registration = {
                     {{ error }}
                 </div>
 
-                <RegistrationEditor v-if="!processing" :schedule="registration" @finished="handleForm" />
+                <RegistrationEditor v-if="!processing" :schedule="data!" @finished="handleForm" />
             </v-card>
         </v-sheet>
     </v-app>

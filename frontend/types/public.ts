@@ -90,3 +90,8 @@ export type RegistrationForm = {
     email: string,
     selection: RegistrationSelection[],
 };
+
+export type RegistrationStatus = {
+    closed: boolean;
+    conference: Conference | null;
+}
