@@ -57,11 +57,7 @@ const { data, pending, error } = await useFetch<Stats>(`${config.public.apiUrl}/
                 </tr>
                 <tr>
                     <td>Najbližšia konferencia</td>
-                    <td>{{ data!.next_conference }}</td>
-                </tr>
-                <tr>
-                    <td>Posledná registrácia</td>
-                    <td>{{ data!.last_registration }}</td>
+                    <td>{{ data!.next_conference.date }}</td>
                 </tr>
             </tbody>
         </v-table>
