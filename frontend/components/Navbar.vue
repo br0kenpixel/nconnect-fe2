@@ -8,7 +8,7 @@ const base_links = [
     { name: "Partneri", target: "sponsors" },
     { name: "Kontakt", target: "contact" },
     { name: "Galéria", target: "gallery" },
-    { name: "Registrácia", target: "test" },
+    { name: "Registrácia", target: "registration" },
 ];
 
 const config = useRuntimeConfig();

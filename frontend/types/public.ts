@@ -79,3 +79,14 @@ export type Gallery = {
     conference: Conference;
     gallery: GalleryImage[];
 };
+
+export type RegistrationSelection = {
+    stage: SimplifiedStage,
+    presentation: Schedule
+};
+
+export type RegistrationForm = {
+    id: number | null,
+    email: string,
+    selection: RegistrationSelection[],
+};
