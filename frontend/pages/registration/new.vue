@@ -1,31 +1,33 @@
 <script setup lang="ts">
 import type { FullSchedule, RegistrationForm } from '~/types/public';
 
+definePageMeta({
+    layout: "registration-edit"
+});
+
 const config = useRuntimeConfig();
 const { data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
 </script>
 
 <template>
-    <v-app>
-        <v-sheet class="pa-14" rounded>
-            <h3 class="text-center">Nová registrácia</h3>
+    <div>
+        <h3 class="text-center">Nová registrácia</h3>
 
-            <br>
+        <br>
 
-            <v-card class="mx-auto px-6 py-8" max-width="800">
-                <div class="text-center" v-show="processing">
-                    <v-progress-circular :size="30" color="primary" indeterminate></v-progress-circular>
-                    <p>Spracovávam požiadavku...</p>
-                </div>
+        <v-card class="mx-auto px-6 py-8" max-width="800">
+            <div class="text-center" v-show="processing">
+                <v-progress-circular :size="30" color="primary" indeterminate></v-progress-circular>
+                <p>Spracovávam požiadavku...</p>
+            </div>
 
-                <div class="alert alert-danger" role="alert" v-if="error">
-                    {{ error }}
-                </div>
+            <div class="alert alert-danger" role="alert" v-if="error">
+                {{ error }}
+            </div>
 
-                <RegistrationEditor v-show="!processing" :schedule="data!" @finished="handleForm" />
-            </v-card>
-        </v-sheet>
-    </v-app>
+            <RegistrationEditor v-show="!processing" :schedule="data!" @finished="handleForm" />
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">

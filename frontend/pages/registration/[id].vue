@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { FullSchedule, RegistrationForm } from '~/types/public';
 
+definePageMeta({
+    layout: "registration-edit"
+});
+
 const config = useRuntimeConfig();
 const route = useRoute();
 const { data: schedule_data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
@@ -8,31 +12,29 @@ const { data: registration_data, pending: _, error: registration_error } = await
 </script>
 
 <template>
-    <v-app>
-        <v-sheet class="pa-14" rounded>
-            <h3 class="text-center">Úprava registrácie</h3>
+    <div>
+        <h3 class="text-center">Úprava registrácie</h3>
 
-            <br>
+        <br>
 
-            <div class="alert alert-danger" role="alert" v-if="registration_error">
-                Registrácia nenájdená
+        <div class="alert alert-danger" role="alert" v-if="registration_error">
+            Registrácia nenájdená
+        </div>
+
+        <v-card class="mx-auto px-6 py-8" max-width="800" v-else>
+            <div class="text-center" v-show="processing">
+                <v-progress-circular :size="30" color="primary" indeterminate></v-progress-circular>
+                <p>Spracovávam požiadavku...</p>
             </div>
 
-            <v-card class="mx-auto px-6 py-8" max-width="800" v-else>
-                <div class="text-center" v-show="processing">
-                    <v-progress-circular :size="30" color="primary" indeterminate></v-progress-circular>
-                    <p>Spracovávam požiadavku...</p>
-                </div>
+            <div class="alert alert-danger" role="alert" v-if="error">
+                {{ error }}
+            </div>
 
-                <div class="alert alert-danger" role="alert" v-if="error">
-                    {{ error }}
-                </div>
-
-                <RegistrationEditor v-show="!processing" :schedule="schedule_data!" :prefill="registration_data!"
-                    @finished="handleForm" @cancelled="handleCancel" cancellable />
-            </v-card>
-        </v-sheet>
-    </v-app>
+            <RegistrationEditor v-show="!processing" :schedule="schedule_data!" :prefill="registration_data!"
+                @finished="handleForm" @cancelled="handleCancel" cancellable />
+        </v-card>
+    </div>
 </template>
 
 <script lang="ts">
