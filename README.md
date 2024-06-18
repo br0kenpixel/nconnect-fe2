@@ -24,7 +24,7 @@ Content/conference management system for nConnect Nitra.
 - [x] Používateľ sa musí vedieť odhlásiť s konferencie
 - [x] Administrátor musí vedieť kto sa na danú konferenciu zaregistroval
 - [x] Používateľ pri prihlasovaní sa na konferenciu musí mať možnosť výberu s jednotlivých prednášok
-    - [ ] Validácia časových okien (nedovoliť vybrať 2 prednášky v tom istom čase)
+    - [x] Validácia časových okien (nedovoliť vybrať 2 prednášky v tom istom čase)
 - [x] Administrátor musí mať možnosť nastavovať kapacitu jednotlivých prednášok - toto sa musí prejavovať aj pri registrácii
 - [x] Administrátor musí vedieť vykonávať CRUD operácie nad sekciou Povedali o nás - foto, výrok
 - [x] Administrátor musí vedieť za pomoci WYSIWYG editora vytvárať custom stránky - príklad Ochrana osobných údajov
