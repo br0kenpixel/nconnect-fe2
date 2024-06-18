@@ -27,14 +27,15 @@ const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiU
             Nepodarilo sa načítať obsah.
         </div>
 
-        <div class="card-group" v-else>
-            <div class="card" v-for="speaker in data">
-                <img :src="speaker.image" :alt="speaker.name" />
-                <div class="card-body">
-                    <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
-                    <p class="card-text">{{ speaker.description }}</p>
-                    <p class="card-text"><small class="text-body-secondary">{{ speaker.company }}</small></p>
-                    <strong v-show="speaker.headliner">⭐️ Headliner</strong>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col mx-auto" v-for="speaker in data">
+                <div class="card h-100">
+                    <img :src="speaker.image" class="card-img-top" :alt="speaker.name">
+                    <div class="card-body">
+                        <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
+                        <strong v-show="speaker.headliner">⭐️ Headliner</strong>
+                        <p class="card-text"><small class="text-body-secondary">{{ speaker.company }}</small></p>
+                    </div>
                 </div>
             </div>
         </div>
