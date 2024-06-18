@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
     <div class="container-fluid text-center root">
         <div class="row" id="topBarRoot">
