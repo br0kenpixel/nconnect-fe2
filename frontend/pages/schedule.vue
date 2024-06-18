@@ -2,6 +2,13 @@
 definePageMeta({
     layout: 'public'
 });
+
+useSeoMeta({
+    title: "Program | nConnect",
+    ogTitle: "Náš program",
+    description: "Program",
+    ogDescription: "Program",
+});
 </script>
 
 <template>

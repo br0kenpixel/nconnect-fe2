@@ -2,6 +2,12 @@
 definePageMeta({
     layout: 'public'
 });
+useSeoMeta({
+    title: "nConnect | Spájame IT komunity",
+    ogTitle: "Domovská stránka - Spájame IT komunity",
+    description: "Domovská stránka konferencie nConnect",
+    ogDescription: "Domovská stránka",
+});
 </script>
 
 <template>

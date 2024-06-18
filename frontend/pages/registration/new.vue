@@ -5,6 +5,13 @@ definePageMeta({
     layout: "registration-edit"
 });
 
+useSeoMeta({
+    title: "Nová registrácia | nConnect",
+    ogTitle: "Registrácia na konferenciu",
+    description: "Registrácia na konferenciu nConnect",
+    ogDescription: "Registrácia na konferenciu",
+});
+
 const config = useRuntimeConfig();
 const { data } = await useFetch<FullSchedule>(`${config.public.apiUrl}/registrations/schedule`);
 </script>

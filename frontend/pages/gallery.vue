@@ -5,6 +5,13 @@ definePageMeta({
     layout: 'public'
 });
 
+useSeoMeta({
+    title: "Galéria | nConnect",
+    ogTitle: "Galéria",
+    description: "Galéria",
+    ogDescription: "Galéria",
+});
+
 const config = useRuntimeConfig();
 const { data, pending, error } = await useFetch<Gallery[]>(`${config.public.apiUrl}/gallery`, { lazy: true });
 </script>

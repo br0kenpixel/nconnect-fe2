@@ -8,6 +8,13 @@ definePageMeta({
 const config = useRuntimeConfig();
 const route = useRoute();
 const { data, pending, error } = await useFetch<CustomPage>(`${config.public.apiUrl}/custom_pages/${route.params.id}`);
+
+useSeoMeta({
+    title: () => `${data.value === null ? "Stránka nenájdená" : data.value.name} | nConnect`,
+    ogTitle: "Registrácia na konferenciu",
+    description: "Registrácia na konferenciu nConnect",
+    ogDescription: "Registrácia na konferenciu",
+});
 </script>
 
 <template>

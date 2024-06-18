@@ -5,6 +5,13 @@ definePageMeta({
     layout: "registration-simple"
 });
 
+useSeoMeta({
+    title: "Registrácie | nConnect",
+    ogTitle: "Registrácia na konferenciu",
+    description: "Registrácia na konferenciu nConnect",
+    ogDescription: "Registrácia na konferenciu",
+});
+
 const config = useRuntimeConfig();
 const { data } = await useFetch<RegistrationStatus>(`${config.public.apiUrl}/registrations/available`);
 </script>

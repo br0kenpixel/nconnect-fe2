@@ -2,6 +2,13 @@
 definePageMeta({
     layout: "registration-simple"
 });
+
+useSeoMeta({
+    title: "Registrácia | nConnect",
+    ogTitle: "Registrácia na konferenciu",
+    description: "Registrácia na konferenciu nConnect",
+    ogDescription: "Registrácia na konferenciu",
+});
 </script>
 
 <template>
