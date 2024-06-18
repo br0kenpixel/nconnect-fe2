@@ -4,7 +4,7 @@ definePageMeta({
 });
 
 useSeoMeta({
-    title: "Konkat | nConnect",
+    title: "Kontakt | nConnect",
     ogTitle: "Kontakt",
     description: "Kontakty na organizátorov nConnect",
     ogDescription: "Kontakty na organizátorov",
