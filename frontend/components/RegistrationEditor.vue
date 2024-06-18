@@ -143,12 +143,27 @@ export default {
                         return e.presentation.id === sched.id;
                     }) !== undefined;
 
-                    return !found && (sched.registrations < sched.seats);
+                    let available = (sched.registrations < sched.seats);
+
+                    let notConflicting = this.selection.every(e => {
+                        return !this.checkTimeConflict(sched, e.presentation);
+                    });;
+
+                    return !found && available && notConflicting;
                 });
             });
 
             result.stages = result.stages.filter(stage => stage.schedule.length > 0);
             this.availableSchedule = result;
+        },
+        checkTimeConflict(first: Schedule, second: Schedule): boolean {
+            const firstStart = new Date(`1970-01-01T${first.start}:00`);
+            const firstEnd = new Date(`1970-01-01T${first.end}:00`);
+
+            const secondStart = new Date(`1970-01-01T${second.start}:00`);
+            const secondEnd = new Date(`1970-01-01T${second.end}:00`);
+
+            return (firstStart < secondEnd) && (firstEnd > secondStart);
         },
         send() {
             this.$emit("finished", {
