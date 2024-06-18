@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegistrationCancelled;
+use App\Mail\RegistrationCompleted;
 use App\Models\Attendee;
 use App\Models\Registration;
 use App\Models\Schedule;
@@ -10,6 +12,7 @@ use App\Models\Stage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class RegistrationController extends Controller
@@ -78,6 +81,9 @@ class RegistrationController extends Controller
             return response("Invalid body structure", 400);
         }
 
+        $conference = StatsController::next_conference();
+        $schedules = [];
+
         foreach ($request->selection as $schedule) {
             $entry_schedule = Schedule::find($schedule);
 
@@ -88,6 +94,8 @@ class RegistrationController extends Controller
             if ($entry_schedule->speaker === null) {
                 return response("Schedule (" . $schedule . ") is not a presentation", 400);
             }
+
+            array_push($schedules, $entry_schedule);
         }
 
         $attendee = Attendee::create([
@@ -96,6 +104,7 @@ class RegistrationController extends Controller
         ]);
 
         $this->write_registration($request, $attendee);
+        Mail::to($attendee)->sendNow(new RegistrationCompleted($conference, $attendee, $schedules));
 
         return response(status: 201);
     }
@@ -151,6 +160,8 @@ class RegistrationController extends Controller
 
         Registration::whereColumn("attendee", "=", $id)->delete();
         $attendee->delete();
+
+        Mail::to($attendee)->sendNow(new RegistrationCancelled($attendee));
 
         return response(status: 201);
     }
