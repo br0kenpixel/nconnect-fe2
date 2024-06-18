@@ -22,7 +22,7 @@ Content/conference management system for nConnect Nitra.
 - [x] Používateľ sa musí vedieť zaregistrovať na konferenciu 
 - [x] Po registrácii je potrebné aby prišiel registračný email na predvolenú adresu ako aj na adresu používateľa
 - [x] Používateľ sa musí vedieť odhlásiť s konferencie
-- [ ] Administrátor musí vedieť kto sa na danú konferenciu zaregistroval
+- [x] Administrátor musí vedieť kto sa na danú konferenciu zaregistroval
 - [x] Používateľ pri prihlasovaní sa na konferenciu musí mať možnosť výberu s jednotlivých prednášok
     - [ ] Validácia časových okien (nedovoliť vybrať 2 prednášky v tom istom čase)
 - [x] Administrátor musí mať možnosť nastavovať kapacitu jednotlivých prednášok - toto sa musí prejavovať aj pri registrácii
