@@ -67,7 +67,7 @@ const { data, pending, error } = await useFetch<Contact[]>(`${config.public.apiU
             <!-- Map image -->
 
             <div class="card custom-card mx-auto">
-                <NuxtImg src="/img/location.jpeg" class="card-img custom-card-img" alt="Location" />
+                <NuxtImg src="/img/location.jpeg" class="card-img custom-card-img" alt="Location" loading="lazy" />
                 <div class="card-img-overlay">
                     <h5 class="card-title custom-card-title">DRAŽOVSKÁ 2, NITRA</h5>
                     <p class="card-text">ŠTUDENTSKÉ CENTRUM UKF</p>

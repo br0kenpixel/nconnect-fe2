@@ -6,8 +6,9 @@
             <button type="button" data-bs-target="#indexCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <NuxtImg src="/img/carousel/nconnect.jpg" class="d-block w-100" alt="nconnect" />
+            <div class="carousel-item active" style="min-height: 100px;">
+                <NuxtImg src="/img/carousel/nconnect.webp" class="d-block w-100" alt="nconnect" width="1500"
+                    height="500" />
                 <div class="carousel-caption d-md-block">
                     <h1>nCONNECT</h1>
                     <p>TECH KONFERENCIA PRE ŠTUDENTOV V NITRE</p>
@@ -16,7 +17,8 @@
                 </div>
             </div>
             <div class="carousel-item">
-                <NuxtImg src="/img/carousel/studentske_centrum.jpg" class="d-block w-100" alt="Študentské centrum" />
+                <NuxtImg src="/img/carousel/studentske_centrum.webp" class="d-block w-100" alt="Študentské centrum"
+                    loading="lazy" width="900" height="500" />
                 <div class="carousel-caption d-md-block">
                     <h1>ŠTUDENTSKÉ CENTRUM UKF</h1>
                     <p>VIDÍME SA TAM</p>
