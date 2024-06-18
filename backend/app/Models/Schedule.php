@@ -35,4 +35,15 @@ class Schedule extends Model
     {
         return Registration::whereColumn("schedule", "=", $this->id)->count();
     }
+
+    public function conflicts_with(Schedule $other): bool
+    {
+        $thisStart = strtotime($this->start);
+        $thisEnd = strtotime($this->end);
+
+        $otherStart = strtotime($other->start);
+        $otherEnd = strtotime($other->end);
+
+        return $thisStart < $otherEnd && $thisEnd > $otherStart;
+    }
 }

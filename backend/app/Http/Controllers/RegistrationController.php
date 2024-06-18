@@ -133,6 +133,18 @@ class RegistrationController extends Controller
             array_push($schedules, $entry_schedule);
         }
 
+        foreach ($schedules as $schedule) {
+            foreach ($schedules as $schedule_other) {
+                if ($schedule === $schedule_other) {
+                    continue;
+                }
+
+                if ($schedule->conflicts_with($schedule_other)) {
+                    return response("Schedules " . $schedule->id . " and " . $schedule_other->id . " conflict", 400);
+                }
+            }
+        }
+
         $attendee = Attendee::create([
             "email" => $request->email,
             "name" => $request->name

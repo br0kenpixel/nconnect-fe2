@@ -125,7 +125,7 @@ Route::prefix("/registrations")->group(function () {
     Route::get("/schedule", [RegistrationController::class, 'get_schedule']);
     Route::put("/create", [RegistrationController::class, 'create']);
 
-    Route::get('/all', [RegistrationController::class, 'get_all']);//->middleware('auth:sanctum');
+    Route::get('/all', [RegistrationController::class, 'get_all'])->middleware('auth:sanctum');
 
     Route::get("/{id}", [RegistrationController::class, 'get']);
     Route::post("/{id}", [RegistrationController::class, 'update']);
