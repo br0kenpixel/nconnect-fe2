@@ -4,7 +4,7 @@
     <div class="card mb-3 card-custom" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
-                <img :src="image" class="img-fluid rounded-start" :alt="name" />
+                <img :src="image" class="img-fluid rounded-start img-custom" :alt="name" />
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -21,6 +21,10 @@
 .card-custom {
     background: transparent;
     border: none;
+}
+
+.img-custom {
+    height: 180px;
 }
 
 h5,

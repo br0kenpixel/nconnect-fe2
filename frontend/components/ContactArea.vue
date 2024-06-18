@@ -44,7 +44,8 @@ const { data, pending, error } = await useFetch<Contact[]>(`${config.public.apiU
                         <div class="card mb-3" style="max-width: 540px;">
                             <div class="row g-0">
                                 <div class="col-md-4">
-                                    <img :src="contact.image" class="img-fluid rounded-start" :alt="contact.name" />
+                                    <img :src="contact.image" class="img-fluid rounded-start img-custom"
+                                        :alt="contact.name" />
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -101,6 +102,10 @@ p {
 a {
     text-decoration: unset;
     color: unset;
+}
+
+.img-custom {
+    height: 130px;
 }
 
 .custom-card {
