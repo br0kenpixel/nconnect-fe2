@@ -9,11 +9,13 @@ const form = ref({
     email: "",
     password: "",
 });
+const loading = ref(false);
 const error = ref(null as null | string);
 const { login } = useSanctumAuth();
 
 async function handleLogin() {
     error.value = null;
+    loading.value = true;
 
     try {
         await login({
@@ -24,7 +26,13 @@ async function handleLogin() {
         if (e instanceof FetchError && e.response?.status === 422) {
             error.value = e.response?._data.message;
         }
+    } finally {
+        loading.value = false;
     }
+}
+
+function required(v: any) {
+    return !!v || 'Povinné pole';
 }
 </script>
 
@@ -63,34 +71,3 @@ async function handleLogin() {
     width: 40%;
 }
 </style>
-
-<script lang="ts">
-export default {
-    data: () => ({
-        loading: false,
-    }),
-
-    methods: {
-        onSubmit() {
-            //if (!this.form) return;
-            this.loading = true;
-
-            //setTimeout(() => (this.loading = false), 4000);
-            this.tryLogin();
-        },
-        required(v: any) {
-            return !!v || 'Povinné pole';
-        },
-        async tryLogin() {
-            /*try {
-                const result = await login({
-                    email: this.email,
-                    password: this.password
-                });
-            } catch (error) {
-                console.log(error);
-            }*/
-        }
-    },
-}
-</script>
