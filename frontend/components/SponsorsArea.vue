@@ -28,7 +28,7 @@ const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiU
             <div class="container text-center" v-else>
                 <div class="row">
                     <div class="col-sm" v-for="sponsor in data">
-                        <img :src="sponsor.image" :alt="sponsor.name" />
+                        <img :src="sponsor.image" class="sponsor-img" :alt="sponsor.name" />
                     </div>
                 </div>
             </div>
@@ -45,6 +45,10 @@ const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiU
 
 #sponsors-area-root {
     background: #f0f3f5;
+}
+
+.sponsor-img {
+    max-height: 100px;
 }
 
 .loading-sponsor {
