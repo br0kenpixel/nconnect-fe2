@@ -57,8 +57,13 @@ class RegistrationController extends Controller
                 ->get(["id", "title", "description", "start", "end", "speaker", "seats"])->all();
 
             foreach ($schedule as $presentation) {
+                if (!$presentation->seats_available()) {
+                    continue;
+                }
+
                 $speaker = Speaker::find($presentation->speaker)->first()->get(["id", "name", "company", "description", "image", "headliner"])->first();
 
+                $presentation["registrations"] = $presentation->count_registrations();
                 $presentation["speaker"] = $speaker;
             }
 
@@ -93,6 +98,10 @@ class RegistrationController extends Controller
 
             if ($entry_schedule->speaker === null) {
                 return response("Schedule (" . $schedule . ") is not a presentation", 400);
+            }
+
+            if (!$entry_schedule->seats_available()) {
+                return response("Schedule (" . $schedule . ") is at max capacity", 400);
             }
 
             array_push($schedules, $entry_schedule);

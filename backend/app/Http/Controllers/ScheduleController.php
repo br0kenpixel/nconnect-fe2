@@ -24,6 +24,11 @@ class ScheduleController extends Controller
                     ->with("speaker:id,name,company,image,headliner")
                     ->get(["id", "title", "description", "start", "end", "speaker", "seats"])
                     ->all();
+
+                foreach ($schedule as $presentation) {
+                    $presentation["registrations"] = $presentation->count_registrations();
+                }
+
                 $stage["schedule"] = $schedule;
             }
 

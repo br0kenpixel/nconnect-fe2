@@ -148,6 +148,9 @@ function editSchedule(schedule: Schedule, stage: SimplifiedStage, full_sched: Fu
                         Stage
                     </th>
                     <th class="text-left">
+                        Obsadenosť
+                    </th>
+                    <th class="text-left">
                         Kedy
                     </th>
                     <th class="text-left">
@@ -166,6 +169,7 @@ function editSchedule(schedule: Schedule, stage: SimplifiedStage, full_sched: Fu
                             <td>{{ entry.start }} - {{ entry.end }}</td>
                             <td>{{ entry.speaker === null ? "-" : entry.speaker.name }}</td>
                             <td>{{ stage.name }}</td>
+                            <td>{{ entry.registrations }} / {{ entry.seats }}</td>
                             <td>{{ conference.date }}</td>
                             <td>{{ conference.year }}</td>
                             <td class="text-right">

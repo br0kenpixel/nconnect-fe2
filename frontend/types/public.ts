@@ -23,6 +23,7 @@ export type Schedule = {
     end: string;
     speaker: Speaker | null;
     seats: number;
+    registrations: number;
 };
 
 export type SimplifiedStage = {

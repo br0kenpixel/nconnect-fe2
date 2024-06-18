@@ -23,4 +23,16 @@ class Schedule extends Model
     {
         return $this->belongsTo(Speaker::class, "speaker");
     }
+
+    public function seats_available(): bool
+    {
+        $registrations = Registration::whereColumn("schedule", "=", $this->id)->count();
+
+        return $registrations < $this->seats;
+    }
+
+    public function count_registrations(): int
+    {
+        return Registration::whereColumn("schedule", "=", $this->id)->count();
+    }
 }

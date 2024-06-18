@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Prop, PropType } from 'vue';
+import type { PropType } from 'vue';
 import type { FullSchedule, RegistrationForm, RegistrationSelection, Schedule, SimplifiedStage } from '~/types/public';
 </script>
 
@@ -131,11 +131,9 @@ export default {
         remove(selection: RegistrationSelection) {
             console.log(selection);
             let index = this.selection.findIndex(e => e === selection)!;
-            console.log(index);
 
             this.selection.splice(index, 1);
             this.updateSelection();
-            console.log(this.selection);
         },
         updateSelection() {
             let result: FullSchedule = structuredClone(toRaw(this.schedule));
@@ -146,7 +144,7 @@ export default {
                         return e.presentation.id === sched.id;
                     }) !== undefined;
 
-                    return !found;
+                    return !found && (sched.registrations < sched.seats);
                 });
             });
 
