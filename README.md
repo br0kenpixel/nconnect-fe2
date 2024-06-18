@@ -9,6 +9,12 @@ Content/conference management system for nConnect Nitra.
 ## Tested with
 - Bun 1.1.12, 1.1.13
 
+## Lighthouse score
+- Performance: 82
+- SEO: 100
+- Best practices 96
+- Accessibility: 82
+
 #### Functional Requirements
 
 - [x] Aplikácia musí obsahovať prihlasovanie/registráciu administrátorov
