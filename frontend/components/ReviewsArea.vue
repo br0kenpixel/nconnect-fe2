@@ -40,7 +40,7 @@ const { data, pending, error } = await useFetch<Review[]>(`${config.public.apiUr
 }
 
 #reviews-area-root {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/img/testimonial.jpg");
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("~/public/img/testimonial.jpg");
 }
 
 h2 {
