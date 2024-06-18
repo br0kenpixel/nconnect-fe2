@@ -17,6 +17,32 @@ use Illuminate\Support\Facades\Validator;
 
 class RegistrationController extends Controller
 {
+    public function get_all(): JsonResponse
+    {
+        $result = [];
+        $attendees = Attendee::get(["id", "name", "email"])->all();
+
+        foreach ($attendees as $attendee) {
+            $registrations = Registration::whereColumn("attendee", "=", $attendee->id)->get();
+            $presentations = [];
+
+            foreach ($registrations as $registration) {
+                $schedule = Schedule::whereColumn("id", "=", $registration->schedule)->with(["stage:id,conference,name", "speaker:id,name,company,image,headliner,description"]);
+
+                array_push($presentations, $schedule->get(["id", "title", "description", "start", "end", "speaker", "stage", "seats"]));
+            }
+
+            $entry = [
+                "attendee" => $attendee,
+                "registrations" => $presentations
+            ];
+
+            array_push($result, $entry);
+        }
+
+        return response()->json($result);
+    }
+
     public function available(): JsonResponse
     {
         $conference = StatsController::next_conference();

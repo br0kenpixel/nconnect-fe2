@@ -1,4 +1,4 @@
-import type { CustomPageVisibility } from "./public";
+import type { CustomPageVisibility, Schedule, SimplifiedStage } from "./public";
 
 export type Conference = {
     id: number;
@@ -36,3 +36,12 @@ export type AdminDialog = {
     email: string,
     password: string | null
 };
+
+export type AttendeeRegistration = {
+    attendee: {
+        id: number,
+        name: string,
+        email: string
+    },
+    registrations: Schedule[]
+}

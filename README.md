@@ -11,7 +11,7 @@ Content/conference management system for nConnect Nitra.
 
 # Functional Requirements
 
-- [ ] Aplikácia musí obsahovať prihlasovanie/registráciu administrátorov
+- [x] Aplikácia musí obsahovať prihlasovanie/registráciu administrátorov
 - [x] Administrátor musí vedieť vykonávať CRUD operácie pre stage
 - [x] Administrátor musí vedieť vykonávať CRUD operácie pre časové okná v existujúcich stagoch
 - [x] Administrátor musí vedieť vykonávať CRUD operácie pre profily speakerov - obrázok/krátky popis/dlhý popis/linky na sociálne siete

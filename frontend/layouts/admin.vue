@@ -13,6 +13,7 @@ const links = [
     { display: "Recenzie", to: "admin-reviews" },
     { display: "Kontakty", to: "admin-contacts" },
     { display: "Administrátori", to: "admin-admins" },
+    { display: "Registrácie", to: "admin-registrations" },
 ];
 </script>
 
