@@ -106,6 +106,7 @@ a {
 
 .img-custom {
     height: 130px;
+    width: 200px;
 }
 
 .custom-card {
