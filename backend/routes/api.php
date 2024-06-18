@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConferenceController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CustomPageController;
@@ -17,6 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+Route::prefix("/admins")->group(function () {
+    Route::middleware("auth:sanctum")->group(function () {
+        Route::get("/", [AdminController::class, 'get']);
+
+        Route::put("/", [AdminController::class, 'create']);
+        Route::post("/{id}", [AdminController::class, 'update']);
+        Route::delete("/{id}", [AdminController::class, 'delete']);
+    });
+});
 
 Route::prefix("/speakers")->group(function () {
     Route::get("/", [SpeakerController::class, 'all']);

@@ -23,3 +23,16 @@ export type User = {
     id: number;
     name: string;
 };
+
+export type Administrator = {
+    id: number,
+    email: string,
+    name: string,
+};
+
+export type AdminDialog = {
+    id: number | null,
+    name: string,
+    email: string,
+    password: string | null
+};

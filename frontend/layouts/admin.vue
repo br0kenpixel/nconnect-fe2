@@ -12,6 +12,7 @@ const links = [
     { display: "Galéria", to: "admin-gallery" },
     { display: "Recenzie", to: "admin-reviews" },
     { display: "Kontakty", to: "admin-contacts" },
+    { display: "Administrátori", to: "admin-admins" },
 ];
 </script>
 
