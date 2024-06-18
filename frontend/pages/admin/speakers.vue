@@ -79,7 +79,7 @@ function editSpeaker(speaker: Speaker) {
     <div class="container">
         <h1>Manažment speakerov</h1>
 
-        <AdminBasicOps :adder="newSpeakerDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newSpeakerDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

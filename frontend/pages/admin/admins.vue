@@ -87,7 +87,7 @@ function editAdmin(admin: Administrator) {
 <template>
     <div class="container">
         <h1>Manažment administrátorov</h1>
-        <AdminBasicOps :adder="newAdminDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newAdminDialog" :refresher="refresh" />
 
         <v-table>
             <thead>

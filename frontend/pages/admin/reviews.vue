@@ -77,7 +77,7 @@ function editReview(review: Review) {
     <div class="container">
         <h1>Manažment recenzií</h1>
 
-        <AdminBasicOps :adder="newReviewDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newReviewDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

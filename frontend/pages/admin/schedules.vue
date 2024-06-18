@@ -122,7 +122,7 @@ function editSchedule(schedule: Schedule, stage: SimplifiedStage, full_sched: Fu
     <div class="container">
         <h1>Manažment prednášok</h1>
 
-        <AdminBasicOps :adder="newScheduleDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newScheduleDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

@@ -79,7 +79,7 @@ function editGallery(gallery: Gallery[], conference: Conference) {
     <div class="container">
         <h1>Galéria</h1>
 
-        <AdminBasicOps :adder="newGalleryDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newGalleryDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

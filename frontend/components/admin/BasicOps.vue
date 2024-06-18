@@ -7,12 +7,6 @@
         </div>
 
         <div class="top-action-btn-container">
-            <v-btn prepend-icon="mdi-eraser" base-color="red" @click="eraser">
-                Zmazať všetky
-            </v-btn>
-        </div>
-
-        <div class="top-action-btn-container">
             <v-btn prepend-icon="mdi-refresh" base-color="yellow" @click="refresher">
                 Aktualizovať
             </v-btn>
@@ -31,10 +25,6 @@
 export default {
     props: {
         adder: {
-            type: Function,
-            required: true,
-        },
-        eraser: {
             type: Function,
             required: true,
         },

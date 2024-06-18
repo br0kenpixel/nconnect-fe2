@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { AttendeeRegistration } from '~/types/private';
+
 definePageMeta({
     layout: 'admin',
     middleware: ['sanctum:auth']
@@ -33,7 +35,7 @@ function editRegistration(id: number) {
     <div class="container">
         <h1>Manažment registrácií</h1>
 
-        <AdminBasicOps :adder="newRegistration" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newRegistration" :refresher="refresh" />
 
         <v-table>
             <thead>

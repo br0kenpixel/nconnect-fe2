@@ -73,7 +73,7 @@ function editStage(stage: Stage) {
     <div class="container">
         <h1>Manažment stageov</h1>
 
-        <AdminBasicOps :adder="newStageDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newStageDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

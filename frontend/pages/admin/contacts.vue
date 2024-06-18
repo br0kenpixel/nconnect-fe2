@@ -77,7 +77,7 @@ function editContact(contact: Contact) {
     <div class="container">
         <h1>Manažment kontaktov</h1>
 
-        <AdminBasicOps :adder="newContactDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newContactDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

@@ -73,7 +73,7 @@ function editSponsor(sponsor: Sponsor) {
     <div class="container">
         <h1>Manažment partnerov</h1>
 
-        <AdminBasicOps :adder="newSponsorDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newSponsorDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...

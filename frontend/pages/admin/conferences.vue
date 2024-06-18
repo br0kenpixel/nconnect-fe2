@@ -73,7 +73,7 @@ function editConference(conference: Conference) {
     <div class="container">
         <h1>Manažment konferencií</h1>
 
-        <AdminBasicOps :adder="newConferenceDialog" :eraser="() => { }" :refresher="refresh" />
+        <AdminBasicOps :adder="newConferenceDialog" :refresher="refresh" />
 
         <p v-if="pending">
             Načítavam...
