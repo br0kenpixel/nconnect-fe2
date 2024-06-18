@@ -24,6 +24,9 @@ export default defineNuxtConfig({
             }
         }
     },
+    nitro: {
+        compressPublicAssets: true
+    },
     tiptap: {
         prefix: "Tiptap",
     },
