@@ -35,6 +35,7 @@ const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiU
                     <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
                     <p class="card-text">{{ speaker.description }}</p>
                     <p class="card-text"><small class="text-body-secondary">{{ speaker.company }}</small></p>
+                    <strong v-show="speaker.headliner">⭐️ Headliner</strong>
                 </div>
             </div>
         </div>
