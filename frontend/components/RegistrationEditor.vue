@@ -129,7 +129,6 @@ export default {
             this.updateSelection();
         },
         remove(selection: RegistrationSelection) {
-            console.log(selection);
             let index = this.selection.findIndex(e => e === selection)!;
 
             this.selection.splice(index, 1);
