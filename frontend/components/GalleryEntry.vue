@@ -1,11 +1,3 @@
-<script setup lang="ts">
-import type { FullSchedule, SimplifiedStage } from '~/types/public';
-
-const config = useRuntimeConfig();
-
-//const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, { lazy: true });
-</script>
-
 <template>
     <div id="gallery-area-root">
         <div class="container" id="gallery-area">

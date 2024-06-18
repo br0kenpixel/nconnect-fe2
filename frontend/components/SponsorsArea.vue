@@ -2,7 +2,6 @@
 import type { Sponsor } from '~/types/public';
 
 const config = useRuntimeConfig();
-
 const { data, pending, error } = await useFetch<Sponsor[]>(`${config.public.apiUrl}/sponsors`);
 </script>
 

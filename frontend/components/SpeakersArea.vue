@@ -2,7 +2,6 @@
 import type { Speaker } from '~/types/public';
 
 const config = useRuntimeConfig();
-
 const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`);
 </script>
 
