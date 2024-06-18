@@ -82,7 +82,8 @@ export default {
             }
 
             return this.name.length > 0 &&
-                this.phone.length === 13 &&
+                this.phone.length >= 12 &&
+                this.phone.length <= 17 &&
                 this.email.length > 0;
         },
         show(prefill?: Contact) {

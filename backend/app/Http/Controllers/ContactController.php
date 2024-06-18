@@ -21,7 +21,7 @@ class ContactController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "name" => "required|max:24",
-            "phone" => "required|max:13",
+            "phone" => "required|max:17",
             "email" => "required|email:rfc,dns",
             "image" => "required",
         ], $request->all());
@@ -45,7 +45,7 @@ class ContactController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "name" => "required|max:24",
-            "phone" => "required|max:13",
+            "phone" => "required|max:17",
             "email" => "required|email",
             "image" => "nullable",
         ], $request->all());
