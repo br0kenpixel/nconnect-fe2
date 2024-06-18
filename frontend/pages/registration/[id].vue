@@ -29,7 +29,7 @@ const { data: registration_data, pending: _, error: registration_error } = await
                 </div>
 
                 <RegistrationEditor v-show="!processing" :schedule="schedule_data!" :prefill="registration_data!"
-                    @finished="handleForm" />
+                    @finished="handleForm" @cancelled="handleCancel" cancellable />
             </v-card>
         </v-sheet>
     </v-app>
@@ -59,6 +59,22 @@ export default {
                 await this.client(`/api/registrations/${this.$route.params.id}`, {
                     method: "POST",
                     body: { ...data }
+                });
+
+                this.$router.push({ name: "registration-done" });
+            } catch (e) {
+                this.error = e as any;
+            } finally {
+                this.processing = false;
+            }
+        },
+        async handleCancel() {
+            this.error = null;
+            this.processing = true;
+
+            try {
+                await this.client(`/api/registrations/${this.$route.params.id}`, {
+                    method: "DELETE"
                 });
 
                 this.$router.push({ name: "registration-done" });

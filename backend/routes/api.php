@@ -116,6 +116,7 @@ Route::prefix("/registrations")->group(function () {
 
     Route::get("/{id}", [RegistrationController::class, 'get']);
     Route::post("/{id}", [RegistrationController::class, 'update']);
+    Route::delete("/{id}", [RegistrationController::class, 'delete']);
 });
 
 Route::get("/stats", [StatsController::class, 'basic']);

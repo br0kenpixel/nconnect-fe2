@@ -47,6 +47,9 @@ import type { FullSchedule, RegistrationForm, RegistrationSelection, Schedule, S
         <br />
         <br />
         <v-btn prepend-icon="mdi-floppy" color="green" @click="send">Uložiť a odoslať</v-btn>
+        <br />
+        <br />
+        <v-btn prepend-icon="mdi-trash-can" color="red" @click="cancel" v-show="cancellable">Zrušiť registráciu</v-btn>
     </div>
 </template>
 
@@ -61,9 +64,14 @@ export default {
             type: Object as PropType<RegistrationForm | null>,
             required: false,
             default: null,
+        },
+        cancellable: {
+            type: Boolean,
+            required: false,
+            default: false
         }
     },
-    emits: ["finished"],
+    emits: ["finished", "cancelled"],
     data() {
         let selection: RegistrationSelection[] = [];
 
@@ -151,6 +159,9 @@ export default {
                 name: this.name,
                 selection: this.selection.map(entry => entry.presentation.id),
             } as RegistrationForm);
+        },
+        cancel() {
+            this.$emit("cancelled");
         }
     },
     mounted() {

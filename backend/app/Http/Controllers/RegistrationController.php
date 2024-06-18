@@ -142,6 +142,19 @@ class RegistrationController extends Controller
         return response(status: 201);
     }
 
+    public function delete(int $id): Response
+    {
+        $attendee = Attendee::find($id);
+        if ($attendee === null) {
+            return response("Invalid attendee", 400);
+        }
+
+        Registration::whereColumn("attendee", "=", $id)->delete();
+        $attendee->delete();
+
+        return response(status: 201);
+    }
+
     private function write_registration(Request $request, Attendee $attendee)
     {
         foreach ($request->selection as $schedule) {
