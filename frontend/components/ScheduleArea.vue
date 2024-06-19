@@ -8,7 +8,7 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
         const currectYear = new Date().getFullYear();
 
         schedule = schedule.filter(conference => {
-            return conference.year === currectYear || conference.year === currectYear - 1;
+            return (conference.year === currectYear || conference.year === currectYear - 1) && conference.stages.length > 0;
         });
         return schedule;
     }
