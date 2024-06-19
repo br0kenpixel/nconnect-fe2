@@ -43,7 +43,7 @@ export type Stats = {
     conferences: number;
     attendees: number;
     stages: number;
-    next_conference: Conference;
+    next_conference: Conference | null;
     last_registration: number;
 };
 
