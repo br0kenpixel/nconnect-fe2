@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="card text-bg-dark">
-            <NuxtImg src="/img/carousel/nconnect.jpg" class="card-img" alt="Nconnect" />
+            <NuxtImg src="/img/carousel/nconnect.webp" class="card-img" alt="Nconnect" />
             <div class="container card-img-overlay d-flex flex-column">
                 <p class="card-text mt-auto">Domov / {{ title }}</p>
                 <h1 class="card-title">{{ title }}</h1>

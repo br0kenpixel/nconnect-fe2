@@ -5,6 +5,7 @@
         <TopInfoBar />
         <Navbar />
         <slot />
+        <BottomNavigation />
     </div>
 </template>
 
