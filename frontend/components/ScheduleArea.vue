@@ -2,7 +2,17 @@
 import type { FullSchedule, SimplifiedStage } from '~/types/public';
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, { lazy: true });
+const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public.apiUrl}/schedule`, {
+    lazy: true,
+    transform(schedule) {
+        const currectYear = new Date().getFullYear();
+
+        schedule = schedule.filter(conference => {
+            return conference.year === currectYear || conference.year === currectYear - 1;
+        });
+        return schedule;
+    }
+});
 </script>
 
 <template>
@@ -27,6 +37,10 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
 
             <div class="alert alert-danger" role="alert" v-else-if="error">
                 Nepodarilo sa načítať obsah.
+            </div>
+
+            <div class="alert alert-info" role="alert" v-else-if="data!.length === 0">
+                Program nie je aktuálne dostupný.
             </div>
 
             <div class="container" v-else>
