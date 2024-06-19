@@ -3,11 +3,13 @@ Content/conference management system for nConnect Nitra.
 
 ## Requirements
 - Apache/nginx for hosting the backend
+    - with PHP 8.3.8
 - A MySQL database
 - NodeJS or [Bun](https://github.com/oven-sh/bun) runtimes to serve the frontend
 
 ## Tested with
-- Bun 1.1.12, 1.1.13
+- Bun 1.1.12, 1.1.13, 1.1.14
+- Node v22.3.0
 
 ## Lighthouse score
 - Performance: 82
