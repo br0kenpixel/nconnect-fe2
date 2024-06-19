@@ -65,7 +65,12 @@ const { data, pending, error } = await useFetch<FullSchedule[]>(`${config.public
 
             <!-- Accordion -->
 
-            <div class="accordion accordion-flush" id="accordionFlush" v-if="selected_stage !== null">
+            <div class="alert alert-info" role="alert" v-if="selected_stage?.schedule.length === 0">
+                Program nie je aktuálne dostupný pre zvolený stage.
+            </div>
+
+            <div class="accordion accordion-flush" id="accordionFlush"
+                v-if="selected_stage !== null && selected_stage.schedule.length > 0">
                 <div class="accordion-item" v-for="(time_window, index) in selected_stage.schedule">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
