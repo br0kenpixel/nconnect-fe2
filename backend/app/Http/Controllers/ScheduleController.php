@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+use Log;
 
 class ScheduleController extends Controller
 {
@@ -44,7 +45,14 @@ class ScheduleController extends Controller
             return response(status: 400);
         }
 
-        Schedule::create($request->all());
+        $new_schedule = Schedule::make($request->all());
+        $conflict = $this->validate_time_conflict($new_schedule);
+
+        if ($conflict === null || $conflict === true) {
+            return response(status: 400);
+        }
+
+        $new_schedule->saveOrFail();
 
         return response(status: 201);
     }
@@ -66,7 +74,21 @@ class ScheduleController extends Controller
             unset($keys["speaker"]);
         }
 
-        Schedule::find($id)->updateOrFail($keys);
+        $schedule = Schedule::find($id);
+        $copy = $schedule->replicate();
+
+        foreach ($request->all() as $key => $value) {
+            $copy[$key] = $value;
+        }
+        $copy["id"] = $schedule->id;
+
+        $conflict = $this->validate_time_conflict($copy);
+
+        if ($conflict === null || $conflict === true) {
+            return response(status: 400);
+        }
+
+        $schedule->updateOrFail($keys);
 
         return response(status: 204);
     }
@@ -84,5 +106,28 @@ class ScheduleController extends Controller
         ], $request->all());
 
         return $validated->passes();
+    }
+
+    private function validate_time_conflict(Schedule $new_sched): bool|null
+    {
+        $stage = Stage::find($new_sched->stage);
+
+        if ($stage === null) {
+            return null;
+        }
+
+        $stage_schedules = Schedule::whereColumn("stage", "=", $stage->id)->get();
+
+        foreach ($stage_schedules as $schedule) {
+            if ($schedule->id === $new_sched->id) {
+                continue;
+            }
+
+            if ($schedule->conflicts_with($new_sched)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

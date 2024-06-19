@@ -35,6 +35,10 @@ async function handleEditor(result: EditorData) {
     }
 }
 
+function handleError(e: any) {
+    alert("Nastala chyba pri pridávaní/úprave prednášky. Skontrolujte časy. Chybový kód:\n" + e);
+}
+
 async function createNewSchedule(
     title: string,
     description: string,
@@ -59,6 +63,7 @@ async function createNewSchedule(
         });
         await refresh();
     } catch (e) {
+        handleError(e);
         console.error(e);
     }
 }
@@ -88,6 +93,7 @@ async function updateSchedule(
         });
         await refresh();
     } catch (e) {
+        handleError(e);
         console.error(e);
     }
 }
