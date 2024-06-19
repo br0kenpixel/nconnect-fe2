@@ -61,6 +61,9 @@ function required(v: any) {
                         Prihlásiť
                     </v-btn>
                 </v-form>
+                <div class="text-center">
+                    <NuxtLink to="/">Späť na domovskú stránku</NuxtLink>
+                </div>
             </v-card>
         </v-sheet>
     </v-app>
