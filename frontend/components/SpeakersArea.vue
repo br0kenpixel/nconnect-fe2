@@ -2,7 +2,11 @@
 import type { Speaker } from '~/types/public';
 
 const config = useRuntimeConfig();
-const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`);
+const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiUrl}/speakers`, {
+    transform(speakers) {
+        return speakers.filter(speaker => speaker.headliner);
+    }
+});
 </script>
 
 <template>
@@ -33,7 +37,6 @@ const { data, pending, error } = await useFetch<Speaker[]>(`${config.public.apiU
                     <img :src="speaker.image" class="card-img-top" :alt="speaker.name">
                     <div class="card-body">
                         <h5 class="card-title speaker-name">{{ speaker.name }}</h5>
-                        <strong v-show="speaker.headliner">⭐️ Headliner</strong>
                         <p class="card-text"><small class="text-body-secondary">{{ speaker.company }}</small></p>
                     </div>
                 </div>
