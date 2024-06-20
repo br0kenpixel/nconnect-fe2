@@ -24,7 +24,7 @@ async function handleEditor(result: { id: null | number, date: Date }) {
 }
 
 async function createNewConference(date: Date) {
-    const date_str = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    const date_str = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
     try {
         await client(`/api/conferences`, {
@@ -41,8 +41,9 @@ async function createNewConference(date: Date) {
 }
 
 async function updateConference(id: number, date: Date) {
-    const date_str = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+    const date_str = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
+    console.log(date_str);
     try {
         await client(`/api/conferences/${id}`, {
             method: "POST",
