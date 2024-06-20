@@ -49,7 +49,7 @@ class ConferenceController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "year" => "required|integer",
-            "date" => "required|date_format:d.m.Y"
+            "date" => "required|date_format:Y-m-d"
         ], $request->all());
 
         return $validated->passes();

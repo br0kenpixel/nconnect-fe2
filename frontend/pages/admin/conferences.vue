@@ -24,12 +24,14 @@ async function handleEditor(result: { id: null | number, date: Date }) {
 }
 
 async function createNewConference(date: Date) {
+    const date_str = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+
     try {
         await client(`/api/conferences`, {
             method: "PUT",
             body: {
                 year: date.getFullYear(),
-                date: `${date.getDate().toString().padStart(2, "0")}.${date.getMonth().toString().padStart(2, "0")}.${date.getFullYear()}`
+                date: date_str
             }
         });
         await refresh();
@@ -39,12 +41,14 @@ async function createNewConference(date: Date) {
 }
 
 async function updateConference(id: number, date: Date) {
+    const date_str = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+
     try {
         await client(`/api/conferences/${id}`, {
             method: "POST",
             body: {
                 year: date.getFullYear(),
-                date: `${date.getDate().toString().padStart(2, "0")}.${date.getMonth().toString().padStart(2, "0")}.${date.getFullYear()}`
+                date: date_str
             }
         });
         await refresh();
