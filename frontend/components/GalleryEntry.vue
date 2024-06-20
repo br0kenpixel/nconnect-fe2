@@ -22,7 +22,7 @@
 
             <div class="container" v-else>
                 <div class="text-center" v-for="image in images">
-                    <img :src="image.image" class="rounded ma-2" alt="...">
+                    <img :src="image.image" class="rounded ma-2" alt="obrázok">
                 </div>
             </div>
             <br>
@@ -49,6 +49,11 @@ h5 {
     color: #004953;
     text-transform: uppercase;
     font-weight: bold;
+}
+
+img {
+    max-width: 60%;
+    max-height: 60%;
 }
 </style>
 
