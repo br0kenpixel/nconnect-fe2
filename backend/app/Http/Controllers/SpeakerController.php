@@ -21,7 +21,7 @@ class SpeakerController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "name" => "required|max:64",
-            "company" => "required|max:12",
+            "company" => "required|max:24",
             "description" => "required",
             "image" => "required",
             "headliner" => "required|boolean"
@@ -46,7 +46,7 @@ class SpeakerController extends Controller
     {
         $validated = Validator::make($request->all(), [
             "name" => "required|max:64",
-            "company" => "required|max:12",
+            "company" => "required|max:24",
             "description" => "required",
             "image" => "nullable",
             "headliner" => "required|boolean"
