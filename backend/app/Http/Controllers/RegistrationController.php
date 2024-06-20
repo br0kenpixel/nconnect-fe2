@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Log;
 
 class RegistrationController extends Controller
 {
@@ -158,6 +159,10 @@ class RegistrationController extends Controller
 
     public function get(int $id): JsonResponse
     {
+        if (StatsController::next_conference() === null) {
+            return response(status: 400)->json(["error" => "Registrations are closed"]);
+        }
+
         $attendee = Attendee::find($id);
         if ($attendee === null) {
             return response(status: 400)->json(["error" => "Invalid attendee"]);
