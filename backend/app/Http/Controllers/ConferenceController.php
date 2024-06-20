@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conference;
+use App\Models\Schedule;
+use App\Models\Stage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -30,6 +32,13 @@ class ConferenceController extends Controller
 
     public function delete(int $id): Response
     {
+        $stages = Stage::whereColumn("conference", "=", $id);
+
+        foreach ($stages as $stage) {
+            Schedule::whereColumn("stage", "=", $stage)->deleteOrFail();
+            $stage->deleteOrFail();
+        }
+
         Conference::find($id)->deleteOrFail();
         return response(status: 204);
     }
