@@ -23,9 +23,9 @@ const { data } = await useFetch<SimplifiedCustomPage[]>(`${config.public.apiUrl}
 <template>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <NuxtLink class="navbar-brand" to="/">
                 <NuxtImg src="/img/nconnect-logo.webp" alt="Logo" width="100px" height="60px" />
-            </a>
+            </NuxtLink>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
