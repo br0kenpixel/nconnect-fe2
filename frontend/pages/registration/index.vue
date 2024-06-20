@@ -30,12 +30,6 @@ const { data } = await useFetch<RegistrationStatus>(`${config.public.apiUrl}/reg
             <button type="button" class="btn btn-primary custom-btn" :disabled="data!.closed"
                 @click="$router.push({ name: 'registration-new' })">⭐️ Nová
                 registácia</button>
-
-            <div style="height: 10px;"></div>
-
-            <button type="button" class="btn btn-secondary custom-btn" :disabled="data!.closed">📝
-                Zmeniť
-                moju registráciu</button>
         </div>
     </div>
 </template>
